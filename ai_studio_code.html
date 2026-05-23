@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathéo Angst | Portfolio Infrastructure & Web</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <nav class="nav-container">
+        <div class="nav-pill">
+            <div class="logo">Mathéo Angst</div>
+            <div class="nav-links">
+                <a href="#profil">Profil</a>
+                <a href="#parcours">Parcours</a>
+                <a href="#projets">Projets</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="mon_cv.pdf" class="btn-cv">Télécharger CV</a>
+        </div>
+    </nav>
+
+    <section id="profil" class="hero">
+        <h1 class="shiny-text">Mathéo Angst.</h1>
+        <h2>18 ans. Infrastructure, Réseaux & Web.</h2>
+        <p>Pas de blabla, des résultats. J'ai une forte maîtrise des flux d'information et de la gestion documentaire, complétée aujourd'hui par des compétences techniques en infrastructure. Je construis, je configure, je dépanne. À la recherche d'une alternance en BTS SIO SISR pour ma deuxième année.</p>
+        <a href="#projets" class="cta">Voir mes projets</a>
+    </section>
+
+    <section class="skills">
+        <div class="skill-card">
+            <h3>Infrastructure & Réseaux</h3>
+            <p>Montage, câblage, diagnostic de pannes de premier niveau, maintenance PC, Windows, machines virtuelles.</p>
+        </div>
+        <div class="skill-card">
+            <h3>Développement</h3>
+            <p>HTML & CSS.</p>
+        </div>
+        <div class="skill-card">
+            <h3>Outils & Automatisation</h3>
+            <p>Pack Office, SketchUp Make, FL Studio. Maîtrise complète de l'environnement iOS, dactylographie experte, création de raccourcis iOS, création et mise en place de bots Discord.</p>
+        </div>
+    </section>
+
+    <section id="parcours" class="timeline-section">
+        <h2 class="shiny-text">Parcours</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div class="timeline-item"><span>Janvier 2025</span><p>E.Leclerc (Soultz-Sous-Forêts). 3 semaines. Tâches administratives et comptables.</p></div>
+            <div class="timeline-item"><span>Octobre 2024</span><p>WOLFF Automobiles. 3 semaines. Mise à jour dossiers clients et factures.</p></div>
+            <div class="timeline-item"><span>Mars 2024</span><p>TMG (Wissembourg). 1 mois. Mise à jour site internet et gestion impayés.</p></div>
+            <div class="timeline-item"><span>Décembre 2023</span><p>Huissier Da Costa. 1 mois. Classement et gestion administrative.</p></div>
+            <div class="timeline-item"><span>Juin 2023</span><p>Collège Albert-Camus. 1 mois. Saisie dossiers inscription et accueil.</p></div>
+            <div class="timeline-item"><span>Février 2023</span><p>BAEHREL-AGRI. 1 semaine. Accueil et stocks.</p></div>
+            <div class="timeline-item"><span>Janvier 2023</span><p>HEIBY. 2 semaines. Archivage et mise à jour dossiers.</p></div>
+            <div class="timeline-item"><span>Janvier 2022</span><p>Garage Louis Grasser. 1 semaine. Stage informatique, admin système.</p></div>
+        </div>
+    </section>
+
+    <section id="projets" class="projects-section">
+        <h2 class="shiny-text">Projets BTS SIO</h2>
+        <div class="horizontal-scroll">
+            <div class="project-card"><h3>Projet Linux</h3><p>Configuration serveur Debian et services.</p></div>
+            <div class="project-card"><h3>Cyber sécurité</h3><p>Tests d'intrusion et sécurisation réseau.</p></div>
+        </div>
+
+        <h2 class="shiny-text">Mes Sites Web</h2>
+        <div class="horizontal-scroll">
+            <div class="project-card">
+                <h3>Garage Bakatselos</h3>
+                <p>Migration o2switch, BDD, HTTPS, Cpanel, Full Stack.</p>
+                <a href="https://garage-bakatselos.fr">Visiter</a>
+            </div>
+            <div class="project-card">
+                <h3>Maison Hermerswiller</h3>
+                <a href="https://maison-alsace.github.io/histoire/">Voir l'histoire</a>
+            </div>
+            <div class="project-card">
+                <h3>Association Hermerswiller</h3>
+                <a href="https://verdant-entremet-be721e.netlify.app">Lien site</a>
+            </div>
+            <div class="project-card">
+                <h3>Mes Garages Modde</h3>
+                <a href="https://mesgaragesmodde.fr/">Voir les véhicules</a>
+            </div>
+            <div class="project-card">
+                <h3>Ancien Portfolio</h3>
+                <a href="https://matheoangst.github.io/cv/">Lien</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2 class="shiny-text">On passe aux choses sérieuses.</h2>
+        <p>Dispo pour une alternance SISR.</p>
+        <p>angstmatheo67@gmail.com | 07 67 99 34 33</p>
+        <form class="contact-form">
+            <input type="text" placeholder="Nom">
+            <input type="email" placeholder="Email">
+            <textarea placeholder="Message"></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
