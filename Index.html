@@ -3,10 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathéo Angst | Portfolio Infrastructure & Web</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mathéo Angst | Portfolio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #fbfbfd;
+            --text: #1d1d1f;
+            --sub: #86868b;
+            --glass: rgba(255, 255, 255, 0.7);
+            --border: rgba(0, 0, 0, 0.08);
+            --accent: #0071e3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        .nav-container {
+            position: fixed;
+            top: 24px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        .nav-pill {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 30px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .btn-cv {
+            background: var(--text);
+            color: white !important;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        section {
+            padding: 120px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .shiny-text {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, #1d1d1f 30%, #ffffff 50%, #1d1d1f 70%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--sub);
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 40px;
+        }
+
+        .cta {
+            background: var(--text);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .cta:hover {
+            transform: scale(1.05);
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 32px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+        }
+
+        .skill-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-container {
+            max-width: 900px;
+            margin: 80px auto;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 0%;
+            background: var(--text);
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .timeline-item span {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item p {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .horizontal-wrapper {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            overflow-x: auto;
+            padding: 40px 80px;
+            display: flex;
+            gap: 30px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+        }
+
+        .horizontal-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-card {
+            flex: 0 0 450px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 32px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
+        .project-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .project-card ul {
+            list-style: none;
+            font-size: 14px;
+            color: var(--sub);
+            margin-bottom: 20px;
+        }
+
+        .project-card ul li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .project-card ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 60px auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .contact-form button {
+            background: var(--text);
+            color: white;
+            padding: 20px;
+            border-radius: 18px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 80px 30px; }
+            .nav-links { display: none; }
+            .horizontal-wrapper { padding: 20px 30px; }
+            .project-card { flex: 0 0 300px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -37,7 +342,7 @@
         </div>
         <div class="skill-card">
             <h3>Développement</h3>
-            <p>HTML & CSS.</p>
+            <p>Expertise HTML & CSS pour des interfaces modernes et performantes.</p>
         </div>
         <div class="skill-card">
             <h3>Outils & Automatisation</h3>
@@ -49,62 +354,188 @@
         <h2 class="shiny-text">Parcours</h2>
         <div class="timeline-container">
             <div class="timeline-line"></div>
-            <div class="timeline-item"><span>Janvier 2025</span><p>E.Leclerc (Soultz-Sous-Forêts). 3 semaines. Tâches administratives et comptables.</p></div>
-            <div class="timeline-item"><span>Octobre 2024</span><p>WOLFF Automobiles. 3 semaines. Mise à jour dossiers clients et factures.</p></div>
-            <div class="timeline-item"><span>Mars 2024</span><p>TMG (Wissembourg). 1 mois. Mise à jour site internet et gestion impayés.</p></div>
-            <div class="timeline-item"><span>Décembre 2023</span><p>Huissier Da Costa. 1 mois. Classement et gestion administrative.</p></div>
-            <div class="timeline-item"><span>Juin 2023</span><p>Collège Albert-Camus. 1 mois. Saisie dossiers inscription et accueil.</p></div>
-            <div class="timeline-item"><span>Février 2023</span><p>BAEHREL-AGRI. 1 semaine. Accueil et stocks.</p></div>
-            <div class="timeline-item"><span>Janvier 2023</span><p>HEIBY. 2 semaines. Archivage et mise à jour dossiers.</p></div>
-            <div class="timeline-item"><span>Janvier 2022</span><p>Garage Louis Grasser. 1 semaine. Stage informatique, admin système.</p></div>
+            <div class="timeline-item"><span>Janvier 2025</span><p>E.Leclerc (Soultz-Sous-Forêts). 3 semaines. Diverses tâches administratives et comptables.</p></div>
+            <div class="timeline-item"><span>Octobre 2024</span><p>WOLFF Automobiles (Soultz-Sous-Forêts). 3 semaines. Mises à jour des dossiers clients, saisie des factures et classement.</p></div>
+            <div class="timeline-item"><span>Mars 2024</span><p>TMG (Wissembourg). 1 mois. Mise à jour du site internet, saisie des factures et gestion des impayés.</p></div>
+            <div class="timeline-item"><span>Décembre 2023</span><p>Huissier de justice Da Costa (Soultz-Sous-Forêts). 1 mois. Classement, gestion des impayés et diverses tâches administratives.</p></div>
+            <div class="timeline-item"><span>Juin 2023</span><p>Collège Albert-Camus (Soufflenheim). 1 mois. Saisie des dossiers d'inscription pour la rentrée, gestion des absences et accueil des parents.</p></div>
+            <div class="timeline-item"><span>Février 2023</span><p>BAEHREL-AGRI. 1 semaine. Accueil clientèle et vérification des stocks.</p></div>
+            <div class="timeline-item"><span>Janvier 2023</span><p>HEIBY. 2 semaines. Accueil, archivage, classement et mise à jour des dossiers.</p></div>
+            <div class="timeline-item"><span>Janvier 2022</span><p>Garage Louis Grasser (Haguenau). 1 semaine. Stage de découverte au service informatique. Découverte du métier d'administrateur système.</p></div>
         </div>
     </section>
 
-    <section id="projets" class="projects-section">
+    <section id="projets" class="projects-container">
         <h2 class="shiny-text">Projets BTS SIO</h2>
-        <div class="horizontal-scroll">
-            <div class="project-card"><h3>Projet Linux</h3><p>Configuration serveur Debian et services.</p></div>
-            <div class="project-card"><h3>Cyber sécurité</h3><p>Tests d'intrusion et sécurisation réseau.</p></div>
+        <div class="horizontal-wrapper">
+            <div class="project-card">
+                <h3>Projet Linux</h3>
+                <p>Déploiement et configuration de serveurs sous Debian.</p>
+            </div>
+            <div class="project-card">
+                <h3>Cyber sécurité</h3>
+                <p>Mise en place de protocoles de sécurité et tests d'intrusion.</p>
+            </div>
         </div>
 
-        <h2 class="shiny-text">Mes Sites Web</h2>
-        <div class="horizontal-scroll">
+        <h2 class="shiny-text" style="margin-top: 80px;">Mes Sites</h2>
+        <div class="horizontal-wrapper" id="web-projects">
             <div class="project-card">
-                <h3>Garage Bakatselos</h3>
-                <p>Migration o2switch, BDD, HTTPS, Cpanel, Full Stack.</p>
-                <a href="https://garage-bakatselos.fr">Visiter</a>
+                <div>
+                    <h3>Garage Bakatselos</h3>
+                    <ul>
+                        <li>Migration BDD locale vers o2switch</li>
+                        <li>Configuration Cpanel</li>
+                        <li>Certification HTTPS</li>
+                        <li>Tests de sécurité et débug complet</li>
+                    </ul>
+                </div>
+                <a href="https://garage-bakatselos.fr" class="project-link" target="_blank">garage-bakatselos.fr →</a>
             </div>
             <div class="project-card">
-                <h3>Maison Hermerswiller</h3>
-                <a href="https://maison-alsace.github.io/histoire/">Voir l'histoire</a>
+                <div>
+                    <h3>Maison Hermerswiller</h3>
+                    <p>Site historique pour l'association d'Hermerswiller.</p>
+                </div>
+                <a href="https://maison-alsace.github.io/histoire/" class="project-link" target="_blank">Voir l'histoire →</a>
             </div>
             <div class="project-card">
-                <h3>Association Hermerswiller</h3>
-                <a href="https://verdant-entremet-be721e.netlify.app">Lien site</a>
+                <div>
+                    <h3>Association Hermerswiller</h3>
+                    <p>Gestion d'événements et plateforme communautaire.</p>
+                </div>
+                <a href="https://verdant-entremet-be721e.netlify.app" class="project-link" target="_blank">Visiter →</a>
             </div>
             <div class="project-card">
-                <h3>Mes Garages Modde</h3>
-                <a href="https://mesgaragesmodde.fr/">Voir les véhicules</a>
+                <div>
+                    <h3>Mes Garages Modde</h3>
+                    <p>Site vitrine dédié aux véhicules moddés GTA.</p>
+                </div>
+                <a href="https://mesgaragesmodde.fr/" class="project-link" target="_blank">mesgaragesmodde.fr →</a>
             </div>
             <div class="project-card">
-                <h3>Ancien Portfolio</h3>
-                <a href="https://matheoangst.github.io/cv/">Lien</a>
+                <div>
+                    <h3>Zina Panel</h3>
+                    <p>Panel de gestion de prises de commande.</p>
+                </div>
+                <span class="project-link">Accès privé</span>
+            </div>
+            <div class="project-card">
+                <div>
+                    <h3>Portfolio v1</h3>
+                    <p>Lien vers l'ancienne version de mon site.</p>
+                </div>
+                <a href="https://matheoangst.github.io/cv/" class="project-link" target="_blank">Ouvrir l'archive →</a>
+            </div>
+        </div>
+
+        <h2 class="shiny-text" style="margin-top: 80px;">Maquettes</h2>
+        <div class="horizontal-wrapper">
+            <div class="project-card">
+                <h3>Auto-écoles</h3>
+                <p>Entraînement UI/UX sur le secteur de la conduite (Local).</p>
+            </div>
+            <div class="project-card">
+                <h3>Agrimat</h3>
+                <p>Refonte moderne d'un site agricole obsolète (Local).</p>
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section">
         <h2 class="shiny-text">On passe aux choses sérieuses.</h2>
-        <p>Dispo pour une alternance SISR.</p>
-        <p>angstmatheo67@gmail.com | 07 67 99 34 33</p>
+        <p>Disponible immédiatement pour une alternance SISR.</p>
+        <p style="font-weight: 700; margin-top: 10px;">angstmatheo67@gmail.com | 07 67 99 34 33</p>
+        
         <form class="contact-form">
-            <input type="text" placeholder="Nom">
-            <input type="email" placeholder="Email">
-            <textarea placeholder="Message"></textarea>
-            <button type="submit">Envoyer</button>
+            <input type="text" placeholder="Nom complet">
+            <input type="email" placeholder="Adresse email">
+            <textarea rows="5" placeholder="Votre message"></textarea>
+            <button type="submit">Envoyer la proposition</button>
         </form>
     </section>
 
-    <script src="script.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".hero > *", {
+            y: 60,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power4.out"
+        });
+
+        gsap.from(".skill-card", {
+            scrollTrigger: {
+                trigger: ".skills",
+                start: "top 85%"
+            },
+            y: 80,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        gsap.to(".timeline-line", {
+            scrollTrigger: {
+                trigger: ".timeline-container",
+                start: "top 60%",
+                end: "bottom 60%",
+                scrub: 1
+            },
+            height: "100%",
+            ease: "none"
+        });
+
+        gsap.from(".timeline-item", {
+            scrollTrigger: {
+                trigger: ".timeline-container",
+                start: "top 70%"
+            },
+            x: -30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
+
+        const horizontals = document.querySelectorAll('.horizontal-wrapper');
+        horizontals.forEach(wrapper => {
+            gsap.from(wrapper.children, {
+                scrollTrigger: {
+                    trigger: wrapper,
+                    start: "top 85%"
+                },
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out"
+            });
+        });
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        horizontals.forEach(slider => {
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => isDown = false);
+            slider.addEventListener('mouseup', () => isDown = false);
+            slider.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
 </body>
 </html>
