@@ -10,12 +10,22 @@ let refreshTimer;
 
 const getProjectDestination = (target) => {
 if (window.ScrollTrigger) {
-const linkedTrigger = ScrollTrigger.getAll().find((trigger) => trigger.trigger === target && trigger.pin);
+ScrollTrigger.refresh();
+const linkedTrigger = ScrollTrigger.getAll().find((trigger) => {
+const triggerElement = trigger.trigger || trigger.vars?.trigger;
+return triggerElement === target && (trigger.pin || trigger.vars?.pin);
+});
 if (linkedTrigger) {
-return linkedTrigger.start;
+return {
+y: linkedTrigger.start,
+offsetY: 0
+};
 }
 }
-return target.getBoundingClientRect().top + window.scrollY;
+return {
+y: target,
+offsetY: 0
+};
 };
 
 const openMenu = () => {
@@ -50,7 +60,7 @@ const target = document.querySelector(link.getAttribute("href"));
 closeMenu();
 if (target) {
 requestAnimationFrame(() => {
-const destination = Math.max(0, Math.round(getProjectDestination(target)));
+const destination = getProjectDestination(target);
 menuLinks.forEach((item) => {
 item.classList.toggle("is-active", item === link);
 });
@@ -60,13 +70,14 @@ gsap.to(window, {
 duration: 0.78,
 ease: "power3.inOut",
 scrollTo: {
-y: destination,
+...destination,
 autoKill: false
 }
 });
 } else {
+const fallbackTop = typeof destination.y === "number" ? destination.y : destination.y.getBoundingClientRect().top + window.scrollY - destination.offsetY;
 window.scrollTo({
-top: destination,
+top: Math.max(0, Math.round(fallbackTop)),
 behavior: prefersReducedMotion ? "auto" : "smooth"
 });
 }

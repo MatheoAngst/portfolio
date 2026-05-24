@@ -677,10 +677,12 @@ scroll-snap-type: none;
 min-height: 100svh;
 padding: 92px 18px 34px;
 place-items: start center;
+overflow: visible;
 }
 
 .project-section-horizontal {
 padding: 0;
+overflow: visible;
 }
 
 .project-card {
@@ -689,7 +691,7 @@ max-width: 100%;
 height: auto;
 min-height: calc(100svh - 126px);
 border-radius: 34px;
-overflow: hidden;
+overflow: visible;
 }
 
 .horizontal-card {
@@ -725,6 +727,7 @@ display: none;
 .horizontal-card .project-panel-action {
 height: auto;
 flex: 0 0 85vw;
+min-width: 85vw;
 max-width: 85vw;
 display: block;
 border-right: 0;
