@@ -1,541 +1,2033 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathéo Angst | Portfolio</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <style>
-        :root {
-            --bg: #fbfbfd;
-            --text: #1d1d1f;
-            --sub: #86868b;
-            --glass: rgba(255, 255, 255, 0.7);
-            --border: rgba(0, 0, 0, 0.08);
-            --accent: #0071e3;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
-
-        .nav-container {
-            position: fixed;
-            top: 24px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            z-index: 1000;
-            padding: 0 20px;
-        }
-
-        .nav-pill {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 30px;
-            border-radius: 40px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text);
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-        .btn-cv {
-            background: var(--text);
-            color: white !important;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        section {
-            padding: 120px 80px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 100px;
-        }
-
-        .shiny-text {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 10px;
-            background: linear-gradient(120deg, #1d1d1f 30%, #ffffff 50%, #1d1d1f 70%);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        .hero h2 {
-            font-size: 1.5rem;
-            color: var(--sub);
-            font-weight: 500;
-            margin-bottom: 30px;
-        }
-
-        .hero p {
-            max-width: 700px;
-            font-size: 1.2rem;
-            color: var(--text);
-            margin-bottom: 40px;
-        }
-
-        .cta {
-            background: var(--text);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s;
-        }
-
-        .cta:hover {
-            transform: scale(1.05);
-        }
-
-        .skills {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 24px;
-        }
-
-        .skill-card {
-            background: white;
-            border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 32px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
-        }
-
-        .skill-card h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .timeline-section {
-            position: relative;
-        }
-
-        .timeline-container {
-            max-width: 900px;
-            margin: 80px auto;
-            position: relative;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 3px;
-            height: 0%;
-            background: var(--text);
-            border-radius: 3px;
-        }
-
-        .timeline-item {
-            margin-bottom: 60px;
-            padding-left: 40px;
-            position: relative;
-        }
-
-        .timeline-item span {
-            display: block;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .timeline-item p {
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        .horizontal-wrapper {
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            overflow-x: auto;
-            padding: 40px 80px;
-            display: flex;
-            gap: 30px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            cursor: grab;
-        }
-
-        .horizontal-wrapper::-webkit-scrollbar {
-            display: none;
-        }
-
-        .project-card {
-            flex: 0 0 450px;
-            background: white;
-            border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 32px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-        }
-
-        .project-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .project-card ul {
-            list-style: none;
-            font-size: 14px;
-            color: var(--sub);
-            margin-bottom: 20px;
-        }
-
-        .project-card ul li {
-            margin-bottom: 5px;
-            padding-left: 15px;
-            position: relative;
-        }
-
-        .project-card ul li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .contact-section {
-            text-align: center;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 60px auto;
-            display: grid;
-            gap: 20px;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 20px;
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            background: white;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .contact-form button {
-            background: var(--text);
-            color: white;
-            padding: 20px;
-            border-radius: 18px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        @media (max-width: 768px) {
-            section { padding: 80px 30px; }
-            .nav-links { display: none; }
-            .horizontal-wrapper { padding: 20px 30px; }
-            .project-card { flex: 0 0 300px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio de Mathéo Angst, étudiant en BTS SIO SISR à la recherche d'une alternance en infrastructures, systèmes, réseaux et développement web.">
+<meta name="theme-color" content="#f7f8fb">
+<title>Mathéo Angst | Portfolio BTS SIO SISR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+color-scheme: light;
+--bg: #f6f7fb;
+--bg-soft: #ffffff;
+--text: #17191f;
+--text-soft: #3d4450;
+--muted: #6e7580;
+--line: rgba(26, 31, 40, 0.1);
+--line-strong: rgba(26, 31, 40, 0.16);
+--glass: rgba(255, 255, 255, 0.66);
+--glass-strong: rgba(255, 255, 255, 0.86);
+--blue: #2f6df6;
+--indigo: #6868ff;
+--silver: #eef2f7;
+--footer-height: 300px;
+--shadow: 0 28px 90px rgba(31, 42, 68, 0.14);
+--shadow-soft: 0 18px 54px rgba(31, 42, 68, 0.1);
+--radius: 24px;
+--max: 1180px;
+}
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+html {
+scroll-behavior: smooth;
+scroll-padding-top: 112px;
+background: var(--bg);
+}
+body {
+min-height: 100vh;
+font-family: "Inter", system-ui, sans-serif;
+color: var(--text);
+background:
+radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.17), transparent 28%),
+radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.92), transparent 34%),
+radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.11), transparent 38%),
+linear-gradient(180deg, #fbfcff 0%, var(--bg) 46%, #ffffff 100%);
+line-height: 1.6;
+overflow-x: hidden;
+}
+body.loading {
+overflow: hidden;
+}
+body.menu-open {
+overflow: hidden;
+}
+body::before {
+content: "";
+position: fixed;
+inset: 0;
+z-index: -4;
+pointer-events: none;
+background:
+linear-gradient(rgba(20, 24, 32, 0.035) 1px, transparent 1px),
+linear-gradient(90deg, rgba(20, 24, 32, 0.035) 1px, transparent 1px);
+background-size: 64px 64px;
+mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 75%);
+}
+a {
+color: inherit;
+text-decoration: none;
+}
+button,
+input,
+textarea {
+font: inherit;
+}
+button {
+border: 0;
+}
+main {
+position: relative;
+z-index: 1;
+background:
+radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.17), transparent 28%),
+radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.92), transparent 34%),
+radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.11), transparent 38%),
+linear-gradient(180deg, #fbfcff 0%, var(--bg) 46%, #ffffff 100%);
+}
+.preloader {
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: grid;
+place-items: center;
+background: #ffffff;
+color: var(--text);
+}
+.preloader-inner {
+display: grid;
+gap: 18px;
+justify-items: center;
+}
+.preloader-count {
+font-family: "Manrope", "Inter", sans-serif;
+font-size: clamp(3rem, 9vw, 7rem);
+font-weight: 900;
+letter-spacing: -0.08em;
+}
+.preloader-name {
+overflow: hidden;
+font-size: clamp(1rem, 2.5vw, 1.5rem);
+font-weight: 900;
+letter-spacing: 0.02em;
+clip-path: inset(0 0 100% 0);
+}
+.scroll-progress {
+position: fixed;
+top: 0;
+left: 0;
+z-index: 1000;
+width: 0%;
+height: 2px;
+background: linear-gradient(90deg, #10131a, #f4f7fb, #717b8e, #10131a);
+box-shadow: 0 0 18px rgba(31, 42, 68, 0.24);
+}
+.ambient {
+position: fixed;
+z-index: -3;
+pointer-events: none;
+border-radius: 999px;
+filter: blur(6px);
+}
+.ambient-one {
+width: 42vw;
+height: 42vw;
+left: -18vw;
+top: 8vh;
+background: radial-gradient(circle, rgba(47, 109, 246, 0.18), transparent 68%);
+}
+.ambient-two {
+width: 36vw;
+height: 36vw;
+right: -14vw;
+top: 18vh;
+background: radial-gradient(circle, rgba(181, 188, 202, 0.28), transparent 68%);
+}
+.cursor-dot,
+.cursor-ring {
+position: fixed;
+left: 0;
+top: 0;
+z-index: 9998;
+pointer-events: none;
+border-radius: 50%;
+transform: translate3d(-50%, -50%, 0);
+opacity: 0;
+}
+.cursor-dot {
+width: 8px;
+height: 8px;
+background: #11141a;
+}
+.cursor-ring {
+width: 34px;
+height: 34px;
+border: 1px solid rgba(17, 20, 26, 0.48);
+mix-blend-mode: difference;
+}
+body.cursor-active .cursor-dot,
+body.cursor-active .cursor-ring {
+opacity: 1;
+}
+body.cursor-hover .cursor-ring {
+width: 58px;
+height: 58px;
+background: #ffffff;
+border-color: #ffffff;
+}
+.site-header {
+position: fixed;
+top: 18px;
+left: 0;
+right: 0;
+z-index: 100;
+display: flex;
+justify-content: center;
+padding: 0 18px;
+transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-pill {
+width: min(var(--max), 100%);
+min-height: 68px;
+display: grid;
+grid-template-columns: auto 1fr auto;
+align-items: center;
+gap: 20px;
+padding: 10px 12px 10px 22px;
+border: 1px solid rgba(255, 255, 255, 0.76);
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.68);
+backdrop-filter: blur(28px) saturate(180%);
+box-shadow: var(--shadow-soft);
+}
+.brand {
+color: var(--text);
+font-weight: 900;
+white-space: nowrap;
+letter-spacing: -0.02em;
+}
+.nav-links {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+}
+.nav-links a {
+min-height: 42px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0 14px;
+border-radius: 999px;
+color: var(--muted);
+font-size: 0.92rem;
+font-weight: 800;
+transition: color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+.nav-links a:hover,
+.nav-links a.is-active {
+color: var(--text);
+background: rgba(255, 255, 255, 0.72);
+box-shadow: inset 0 0 0 1px rgba(26, 31, 40, 0.08);
+}
+.nav-download {
+min-height: 46px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0 18px;
+border-radius: 999px;
+color: #ffffff;
+background: linear-gradient(135deg, #171b24, #4b5568);
+box-shadow: 0 18px 46px rgba(31, 42, 68, 0.18);
+font-weight: 900;
+transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+.nav-download:hover {
+transform: translateY(-2px);
+box-shadow: 0 24px 60px rgba(31, 42, 68, 0.22);
+}
+.menu-toggle {
+display: none;
+width: 46px;
+height: 46px;
+place-items: center;
+gap: 5px;
+border: 1px solid var(--line);
+border-radius: 50%;
+color: var(--text);
+background: rgba(255, 255, 255, 0.78);
+cursor: pointer;
+}
+.menu-toggle span {
+width: 18px;
+height: 2px;
+border-radius: 999px;
+background: currentColor;
+transition: transform 0.24s ease;
+}
+.hero {
+position: relative;
+min-height: 100svh;
+display: grid;
+place-items: center;
+overflow: hidden;
+isolation: isolate;
+padding: 150px 20px 98px;
+}
+.hero-shell {
+width: min(1040px, 100%);
+position: relative;
+z-index: 2;
+text-align: center;
+}
+.eyebrow {
+color: var(--blue);
+font-size: 0.78rem;
+font-weight: 900;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+}
+.shine {
+color: transparent;
+background:
+linear-gradient(105deg, #11141a 0%, #252a34 24%, #ffffff 36%, #7b8491 43%, #17191f 58%, #2d333d 100%);
+background-size: 260% auto;
+-webkit-background-clip: text;
+background-clip: text;
+animation: metalShine 5.8s linear infinite;
+}
+@keyframes metalShine {
+to {
+background-position: 260% center;
+}
+}
+.hero h1 {
+margin-top: 16px;
+font-family: "Manrope", "Inter", sans-serif;
+font-size: clamp(4.2rem, 13vw, 12rem);
+line-height: 0.84;
+letter-spacing: -0.075em;
+text-wrap: balance;
+}
+.hero-subtitle {
+width: min(900px, 100%);
+margin: 28px auto 0;
+color: var(--text);
+font-size: clamp(1.42rem, 3vw, 2.8rem);
+font-weight: 900;
+line-height: 1.06;
+letter-spacing: -0.04em;
+text-wrap: balance;
+}
+.hero-text {
+width: min(830px, 100%);
+margin: 22px auto 0;
+color: var(--text-soft);
+font-size: clamp(1rem, 1.45vw, 1.18rem);
+}
+.hero-actions {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 12px;
+margin-top: 36px;
+}
+.button,
+.secondary-btn {
+min-height: 50px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0 22px;
+border-radius: 999px;
+font-weight: 900;
+cursor: pointer;
+transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease, border-color 0.24s ease;
+}
+.button:hover,
+.secondary-btn:hover {
+transform: translateY(-3px);
+}
+.button-primary {
+color: #ffffff;
+background: linear-gradient(135deg, #141821, #3d4655);
+box-shadow: 0 22px 60px rgba(31, 42, 68, 0.2);
+}
+.button-soft,
+.secondary-btn {
+color: var(--text);
+border: 1px solid rgba(26, 31, 40, 0.08);
+background: rgba(255, 255, 255, 0.7);
+backdrop-filter: blur(18px);
+}
+.secondary-btn {
+min-height: 42px;
+padding: 0 16px;
+}
+.hero-panel {
+position: absolute;
+right: max(22px, calc((100vw - var(--max)) / 2));
+bottom: 80px;
+width: min(350px, 82vw);
+padding: 22px;
+z-index: 1;
+}
+.panel-top,
+.panel-grid,
+.project-body,
+.dialog-layer {
+position: relative;
+z-index: 1;
+}
+.panel-top {
+display: grid;
+gap: 6px;
+}
+.panel-top span {
+color: var(--muted);
+font-weight: 800;
+}
+.panel-top strong {
+font-size: 1.2rem;
+letter-spacing: -0.04em;
+}
+.panel-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 10px;
+margin-top: 18px;
+}
+.panel-grid span {
+min-height: 58px;
+display: grid;
+place-items: center;
+border: 1px solid var(--line);
+border-radius: 18px;
+color: var(--text-soft);
+background: rgba(255, 255, 255, 0.54);
+font-weight: 900;
+}
+.section {
+width: min(var(--max), calc(100% - 40px));
+margin: 0 auto;
+padding: 104px 0;
+}
+.section-heading {
+width: min(860px, 100%);
+margin-bottom: 42px;
+}
+.section-heading.centered {
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+}
+.section-heading h2,
+.contact-copy h2,
+.horizontal-header h2 {
+margin-top: 12px;
+font-family: "Manrope", "Inter", sans-serif;
+font-size: clamp(2.5rem, 6vw, 5.5rem);
+line-height: 0.94;
+letter-spacing: -0.065em;
+text-wrap: balance;
+}
+.section-intro,
+.horizontal-header p,
+.contact-copy p {
+width: min(780px, 100%);
+margin-top: 18px;
+color: var(--muted);
+font-size: clamp(1rem, 1.35vw, 1.14rem);
+}
+.section-heading.centered .section-intro {
+margin-left: auto;
+margin-right: auto;
+}
+.glass {
+position: relative;
+overflow: hidden;
+border: 1px solid rgba(255, 255, 255, 0.76);
+border-radius: var(--radius);
+background: linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.48));
+backdrop-filter: blur(28px) saturate(160%);
+box-shadow: var(--shadow);
+}
+.glass::before {
+content: "";
+position: absolute;
+inset: 0;
+pointer-events: none;
+background:
+linear-gradient(135deg, rgba(255, 255, 255, 0.82), transparent 38%),
+radial-gradient(circle at 96% 0%, rgba(47, 109, 246, 0.1), transparent 34%);
+}
+.skills-grid,
+.bts-grid,
+.training-grid,
+.contact-grid {
+display: grid;
+gap: 18px;
+}
+.skills-grid {
+grid-template-columns: repeat(3, 1fr);
+}
+.bts-grid,
+.training-grid,
+.contact-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+.skill-card,
+.project-card,
+.horizontal-card {
+transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+transform-style: preserve-3d;
+}
+.skill-card:hover,
+.project-card:hover,
+.horizontal-card:hover,
+.contact-form:hover {
+border-color: rgba(47, 109, 246, 0.22);
+box-shadow: 0 34px 100px rgba(31, 42, 68, 0.18);
+}
+.skill-card,
+.project-card {
+min-height: 300px;
+padding: clamp(24px, 3vw, 34px);
+}
+.card-number,
+.tag,
+.timeline-badge {
+position: relative;
+z-index: 1;
+min-height: 34px;
+display: inline-flex;
+align-items: center;
+padding: 0 12px;
+border: 1px solid rgba(26, 31, 40, 0.08);
+border-radius: 999px;
+color: var(--blue);
+background: rgba(255, 255, 255, 0.62);
+font-size: 0.76rem;
+font-weight: 900;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+}
+.skill-card h3,
+.project-card h3,
+.horizontal-card h3,
+.timeline-card h3,
+.project-drawer h3 {
+position: relative;
+z-index: 1;
+color: var(--text);
+font-size: 1.42rem;
+line-height: 1.16;
+letter-spacing: -0.035em;
+}
+.skill-card h3,
+.project-card h3,
+.horizontal-card h3 {
+margin-top: 22px;
+}
+.skill-card p,
+.project-card p,
+.horizontal-card p,
+.timeline-card p,
+.project-drawer p {
+position: relative;
+z-index: 1;
+margin-top: 14px;
+color: var(--muted);
+}
+.timeline {
+position: relative;
+width: min(930px, 100%);
+margin: 0 auto;
+padding-left: 58px;
+}
+.timeline-track {
+position: absolute;
+top: 8px;
+bottom: 8px;
+left: 13px;
+width: 2px;
+border-radius: 999px;
+background: rgba(26, 31, 40, 0.1);
+overflow: hidden;
+}
+.timeline-progress {
+width: 100%;
+height: 0;
+border-radius: 999px;
+background: linear-gradient(180deg, #111827, #8a94a6, #111827);
+box-shadow: 0 0 20px rgba(47, 109, 246, 0.18);
+}
+.timeline-item {
+position: relative;
+display: grid;
+grid-template-columns: 170px 1fr;
+gap: 28px;
+padding-bottom: 30px;
+opacity: 0;
+}
+.timeline-item::before {
+content: "";
+position: absolute;
+left: -52px;
+top: 8px;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+border: 2px solid rgba(26, 31, 40, 0.12);
+background: #ffffff;
+box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.72);
+transition: background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+.timeline-item.is-active::before {
+border-color: #2a3341;
+background: #1c222c;
+box-shadow: 0 0 0 8px rgba(47, 109, 246, 0.08), 0 12px 34px rgba(47, 109, 246, 0.22);
+}
+.timeline-item time {
+color: var(--blue);
+font-weight: 900;
+letter-spacing: -0.02em;
+}
+.timeline-card {
+padding: 24px;
+}
+.timeline-badge + h3 {
+margin-top: 14px;
+}
+.project-card .secondary-btn,
+.horizontal-card .secondary-btn {
+position: relative;
+z-index: 1;
+}
+.card-actions {
+position: relative;
+z-index: 5;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 10px;
+margin-top: 24px;
+}
+.card-actions .secondary-btn,
+.card-actions .text-link {
+position: relative;
+z-index: 6;
+pointer-events: auto;
+}
+.text-link {
+display: inline-flex;
+align-items: center;
+min-height: 42px;
+color: var(--blue);
+font-weight: 900;
+}
+.text-link:hover {
+color: var(--indigo);
+}
+.disabled-link {
+color: var(--muted);
+cursor: not-allowed;
+}
+.horizontal-section {
+position: relative;
+overflow: hidden;
+}
+.horizontal-pin {
+min-height: 100svh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 96px 0;
+}
+.horizontal-header {
+width: min(var(--max), calc(100% - 40px));
+margin: 0 auto 34px;
+}
+.horizontal-header.centered {
+text-align: center;
+}
+.horizontal-header.centered p {
+margin-left: auto;
+margin-right: auto;
+}
+.horizontal-header.centered .hero-actions {
+margin-top: 34px;
+}
+.horizontal-viewport {
+width: 100%;
+overflow: visible;
+pointer-events: auto;
+}
+.horizontal-track {
+display: flex;
+width: max-content;
+gap: 18px;
+padding: 0 max(20px, calc((100vw - var(--max)) / 2)) 28px;
+pointer-events: auto;
+will-change: transform;
+}
+.horizontal-card {
+flex: 0 0 min(500px, 78vw);
+display: grid;
+height: clamp(500px, 70svh, 620px);
+grid-template-rows: clamp(160px, 26svh, 230px) minmax(0, 1fr);
+pointer-events: auto;
+}
+.project-visual {
+position: relative;
+display: grid;
+place-items: center;
+min-height: 230px;
+overflow: hidden;
+background: linear-gradient(135deg, #dfe6f1, #ffffff);
+}
+.visual-parallax {
+position: absolute;
+inset: -16%;
+background:
+linear-gradient(45deg, rgba(255, 255, 255, 0.26) 25%, transparent 25% 50%, rgba(255, 255, 255, 0.26) 50% 75%, transparent 75%),
+radial-gradient(circle at 72% 18%, rgba(255, 255, 255, 0.86), transparent 25%);
+background-size: 42px 42px, auto;
+opacity: 0.68;
+will-change: transform;
+}
+.project-visual span {
+position: relative;
+z-index: 1;
+color: rgba(255, 255, 255, 0.92);
+font-family: "Manrope", "Inter", sans-serif;
+font-size: clamp(3.8rem, 8vw, 6rem);
+font-weight: 900;
+letter-spacing: -0.08em;
+text-shadow: 0 14px 40px rgba(31, 42, 68, 0.22);
+}
+.project-visual.garage {
+background: linear-gradient(135deg, #1f2937, #7692c9);
+}
+.project-visual.maison {
+background: linear-gradient(135deg, #8aa99d, #e5cda8);
+}
+.project-visual.association {
+background: linear-gradient(135deg, #395886, #dbeafe);
+}
+.project-visual.gta {
+background: linear-gradient(135deg, #eb7ca8, #ffb36b);
+}
+.project-visual.zina {
+background: linear-gradient(135deg, #171b24, #b8c4d8);
+}
+.project-visual.old {
+background: linear-gradient(135deg, #6b7280, #e5e7eb);
+}
+.project-body {
+display: flex;
+flex-direction: column;
+min-height: 0;
+padding: 26px;
+}
+.horizontal-card .project-body p {
+display: -webkit-box;
+overflow: hidden;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;
+}
+.horizontal-card .card-actions {
+margin-top: auto;
+padding-top: 18px;
+}
+.contact-section {
+padding-bottom: 76px;
+margin-bottom: var(--footer-height);
+}
+.contact-copy {
+align-self: center;
+}
+.contact-info {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-top: 28px;
+color: var(--text);
+font-weight: 900;
+}
+.contact-info a,
+.contact-info span {
+min-height: 48px;
+display: inline-flex;
+align-items: center;
+padding: 0 16px;
+border: 1px solid rgba(255, 255, 255, 0.74);
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.58);
+backdrop-filter: blur(18px);
+}
+.contact-form {
+display: grid;
+gap: 16px;
+padding: clamp(24px, 4vw, 38px);
+transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+.form-field {
+position: relative;
+z-index: 1;
+display: block;
+}
+.form-field input,
+.form-field textarea {
+width: 100%;
+border: 1px solid rgba(26, 31, 40, 0.1);
+border-radius: 18px;
+outline: 0;
+color: var(--text);
+background: rgba(255, 255, 255, 0.72);
+padding: 22px 16px 10px;
+transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.form-field textarea {
+resize: vertical;
+min-height: 150px;
+}
+.form-field span {
+position: absolute;
+left: 16px;
+top: 17px;
+color: var(--muted);
+font-weight: 900;
+pointer-events: none;
+transition: transform 0.2s ease, color 0.2s ease, font-size 0.2s ease;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+border-color: rgba(47, 109, 246, 0.38);
+box-shadow: 0 0 0 4px rgba(47, 109, 246, 0.1);
+background: rgba(255, 255, 255, 0.9);
+}
+.form-field input:focus + span,
+.form-field input:not(:placeholder-shown) + span,
+.form-field textarea:focus + span,
+.form-field textarea:not(:placeholder-shown) + span {
+transform: translateY(-10px);
+color: var(--blue);
+font-size: 0.72rem;
+}
+.email-field::after {
+content: "✓";
+position: absolute;
+right: 15px;
+top: 17px;
+width: 24px;
+height: 24px;
+display: grid;
+place-items: center;
+border-radius: 50%;
+color: #ffffff;
+background: #1f8f5f;
+font-size: 0.84rem;
+font-weight: 900;
+opacity: 0;
+transform: scale(0.72);
+transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.email-field:has(input:valid:not(:placeholder-shown))::after {
+opacity: 1;
+transform: scale(1);
+}
+.contact-form .button {
+position: relative;
+z-index: 1;
+width: fit-content;
+}
+.form-status {
+position: relative;
+z-index: 1;
+min-height: 24px;
+color: var(--muted);
+font-weight: 800;
+}
+.drawer-backdrop {
+position: fixed;
+inset: 0;
+z-index: 600;
+background: rgba(24, 29, 38, 0.28);
+backdrop-filter: blur(14px);
+opacity: 0;
+pointer-events: none;
+}
+.project-drawer {
+position: fixed;
+top: 0;
+right: 0;
+z-index: 601;
+width: min(420px, 100%);
+height: 100svh;
+display: flex;
+flex-direction: column;
+padding: 34px;
+border-left: 1px solid rgba(255, 255, 255, 0.76);
+background: rgba(255, 255, 255, 0.74);
+backdrop-filter: blur(30px) saturate(170%);
+box-shadow: -30px 0 90px rgba(31, 42, 68, 0.18);
+transform: translateX(110%);
+pointer-events: none;
+}
+body.drawer-open {
+overflow: hidden;
+}
+body.drawer-open .drawer-backdrop,
+body.drawer-open .project-drawer {
+pointer-events: auto;
+}
+.drawer-close {
+width: 46px;
+height: 46px;
+display: grid;
+place-items: center;
+align-self: flex-end;
+border: 1px solid rgba(26, 31, 40, 0.1);
+border-radius: 50%;
+color: var(--text);
+background: rgba(255, 255, 255, 0.72);
+cursor: pointer;
+font-size: 1.5rem;
+}
+.drawer-tag {
+margin-top: 34px;
+width: fit-content;
+}
+.project-drawer h3 {
+margin-top: 20px;
+font-size: clamp(2rem, 5vw, 3.1rem);
+}
+.drawer-list {
+margin-top: 20px;
+list-style: none;
+}
+.drawer-list li {
+display: flex;
+gap: 10px;
+color: var(--muted);
+margin-top: 10px;
+}
+.drawer-list li::before {
+content: "";
+width: 7px;
+height: 7px;
+flex: 0 0 auto;
+margin-top: 10px;
+border-radius: 50%;
+background: var(--blue);
+}
+.drawer-link {
+width: fit-content;
+margin-top: auto;
+}
+.drawer-link.is-hidden {
+display: none;
+}
+.site-footer {
+position: fixed;
+left: 0;
+right: 0;
+bottom: 0;
+z-index: -1;
+height: var(--footer-height);
+display: grid;
+place-items: center;
+overflow: hidden;
+color: var(--text);
+background:
+radial-gradient(circle at center, rgba(47, 109, 246, 0.1), transparent 44%),
+linear-gradient(180deg, #eef1f6, #ffffff);
+text-align: center;
+}
+.site-footer p {
+position: relative;
+z-index: 1;
+color: var(--muted);
+font-weight: 900;
+}
+.footer-outline {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+color: transparent;
+-webkit-text-stroke: 1px rgba(23, 25, 31, 0.16);
+font-family: "Manrope", "Inter", sans-serif;
+font-size: clamp(4rem, 14vw, 13rem);
+font-weight: 900;
+letter-spacing: -0.08em;
+white-space: nowrap;
+}
+.hero-reveal,
+.reveal-up,
+.stagger-group > *,
+.timeline-item,
+.stagger-horizontal > * {
+opacity: 0;
+}
+@media (pointer: fine) {
+body.cursor-ready,
+body.cursor-ready a,
+body.cursor-ready button,
+body.cursor-ready input,
+body.cursor-ready textarea {
+cursor: none;
+}
+}
+@media (max-width: 1080px) {
+.nav-pill {
+grid-template-columns: auto auto;
+}
+.menu-toggle {
+display: grid;
+justify-self: end;
+}
+.nav-links,
+.nav-download {
+position: fixed;
+left: 18px;
+right: 18px;
+display: none;
+border: 1px solid rgba(255, 255, 255, 0.74);
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(26px);
+}
+.nav-links {
+top: 92px;
+flex-direction: column;
+align-items: stretch;
+padding: 16px;
+border-radius: 24px 24px 10px 10px;
+}
+.nav-links a {
+justify-content: center;
+}
+.nav-download {
+top: 286px;
+justify-content: center;
+border-radius: 10px 10px 24px 24px;
+}
+body.menu-open .nav-links,
+body.menu-open .nav-download {
+display: flex;
+}
+body.menu-open .menu-toggle span:first-child {
+transform: translateY(3.5px) rotate(45deg);
+}
+body.menu-open .menu-toggle span:last-child {
+transform: translateY(-3.5px) rotate(-45deg);
+}
+}
+@media (max-width: 1024px) {
+.horizontal-section {
+overflow: hidden;
+}
+.horizontal-pin {
+min-height: auto;
+display: block;
+padding: 88px 0;
+}
+.horizontal-header {
+width: min(100% - 40px, var(--max));
+margin-bottom: 28px;
+}
+.horizontal-viewport {
+width: 100%;
+overflow: visible;
+}
+.horizontal-track {
+width: 100%;
+display: flex;
+flex-wrap: nowrap;
+gap: 16px;
+overflow-x: auto;
+overflow-y: hidden;
+scroll-snap-type: x mandatory;
+padding: 0 20px 28px;
+margin: 0;
+scrollbar-width: none;
+-webkit-overflow-scrolling: touch;
+}
+.horizontal-track::-webkit-scrollbar {
+height: 6px;
+background: transparent;
+}
+.horizontal-track::-webkit-scrollbar-thumb {
+background: rgba(26, 31, 40, 0.16);
+border-radius: 10px;
+}
+.horizontal-card {
+flex: 0 0 min(430px, 85vw);
+height: auto;
+min-height: auto;
+grid-template-rows: 200px 1fr;
+scroll-snap-align: center;
+scroll-snap-stop: always;
+}
+.horizontal-card .project-body p {
+display: block;
+overflow: visible;
+}
+}
+@media (max-width: 768px) {
+:root {
+--footer-height: 240px;
+}
+html {
+scroll-padding-top: 92px;
+}
+.site-header {
+top: 12px;
+padding: 0 12px;
+}
+.nav-pill {
+min-height: 60px;
+padding: 8px 10px 8px 16px;
+}
+.brand {
+font-size: 0.96rem;
+}
+.nav-links,
+.nav-download {
+left: 12px;
+right: 12px;
+}
+.hero {
+min-height: 94svh;
+padding: 112px 16px 72px;
+}
+.hero h1 {
+font-size: clamp(3.4rem, 20vw, 6.2rem);
+}
+.hero-subtitle {
+font-size: clamp(1.25rem, 7vw, 2rem);
+}
+.hero-text {
+font-size: 1rem;
+}
+.hero-actions,
+.hero-actions .button,
+.contact-form .button {
+width: 100%;
+}
+.hero-panel {
+display: none;
+}
+.section {
+width: min(100% - 28px, var(--max));
+padding: 74px 0;
+}
+.section-heading {
+margin-bottom: 28px;
+}
+.section-heading h2,
+.contact-copy h2,
+.horizontal-header h2 {
+font-size: clamp(2.05rem, 12vw, 3.35rem);
+}
+.skills-grid,
+.bts-grid,
+.training-grid,
+.contact-grid {
+grid-template-columns: 1fr;
+gap: 14px;
+}
+.skill-card,
+.project-card,
+.timeline-card {
+min-height: auto;
+padding: 22px;
+}
+.timeline {
+padding-left: 36px;
+}
+.timeline-item {
+grid-template-columns: 1fr;
+gap: 10px;
+padding-bottom: 26px;
+}
+.timeline-item::before {
+left: -44px;
+}
+.horizontal-pin {
+padding: 74px 0;
+}
+.horizontal-header {
+width: min(100% - 28px, var(--max));
+margin-bottom: 28px;
+}
+.horizontal-track {
+gap: 14px;
+padding: 0 14px 28px;
+}
+.horizontal-card {
+flex: 0 0 85vw;
+grid-template-rows: 190px 1fr;
+scroll-snap-align: center;
+}
+.project-visual {
+min-height: 190px;
+}
+.card-actions,
+.card-actions .secondary-btn,
+.card-actions .text-link {
+width: 100%;
+}
+.contact-info {
+display: grid;
+}
+.contact-info span {
+display: none;
+}
+.contact-info a {
+justify-content: center;
+overflow-wrap: anywhere;
+}
+.project-drawer {
+width: 100%;
+padding: 26px;
+}
+.drawer-link {
+width: 100%;
+}
+.cursor-dot,
+.cursor-ring {
+display: none;
+}
+}
+@media (max-width: 420px) {
+.hero h1 {
+font-size: clamp(3rem, 20vw, 4.6rem);
+}
+.button,
+.secondary-btn,
+.nav-download {
+font-size: 0.92rem;
+}
+.eyebrow {
+font-size: 0.7rem;
+}
+}
+@media (prefers-reduced-motion: reduce) {
+*,
+*::before,
+*::after {
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
+scroll-behavior: auto !important;
+transition-duration: 0.01ms !important;
+}
+}
+</style>
 </head>
-<body>
+<body class="loading">
+<div class="preloader" aria-hidden="true">
+<div class="preloader-inner">
+<div class="preloader-count">0%</div>
+<div class="preloader-name">
+<span>Mathéo Angst</span>
+</div>
+</div>
+</div>
 
-    <nav class="nav-container">
-        <div class="nav-pill">
-            <div class="logo">Mathéo Angst</div>
-            <div class="nav-links">
-                <a href="#profil">Profil</a>
-                <a href="#parcours">Parcours</a>
-                <a href="#projets">Projets</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <a href="mon_cv.pdf" class="btn-cv">Télécharger CV</a>
-        </div>
-    </nav>
+<div class="scroll-progress" aria-hidden="true"></div>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
 
-    <section id="profil" class="hero">
-        <h1 class="shiny-text">Mathéo Angst.</h1>
-        <h2>18 ans. Infrastructure, Réseaux & Web.</h2>
-        <p>Pas de blabla, des résultats. J'ai une forte maîtrise des flux d'information et de la gestion documentaire, complétée aujourd'hui par des compétences techniques en infrastructure. Je construis, je configure, je dépanne. À la recherche d'une alternance en BTS SIO SISR pour ma deuxième année.</p>
-        <a href="#projets" class="cta">Voir mes projets</a>
-    </section>
+<header class="site-header">
+<nav class="nav-pill" aria-label="Navigation principale">
+<a class="brand magnetic" href="#accueil">Mathéo Angst</a>
+<button class="menu-toggle magnetic" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+<span></span>
+<span></span>
+</button>
+<div class="nav-links">
+<a class="magnetic" href="#profil">Profil</a>
+<a class="magnetic" href="#parcours">Parcours</a>
+<a class="magnetic" href="#projets">Projets</a>
+<a class="magnetic" href="#contact">Contact</a>
+</div>
+<a class="nav-download magnetic" href="mon_cv.pdf" download>Télécharger CV</a>
+</nav>
+</header>
 
-    <section class="skills">
-        <div class="skill-card">
-            <h3>Infrastructure & Réseaux</h3>
-            <p>Montage, câblage, diagnostic de pannes de premier niveau, maintenance PC, Windows, machines virtuelles.</p>
-        </div>
-        <div class="skill-card">
-            <h3>Développement</h3>
-            <p>Expertise HTML & CSS pour des interfaces modernes et performantes.</p>
-        </div>
-        <div class="skill-card">
-            <h3>Outils & Automatisation</h3>
-            <p>Pack Office, SketchUp Make, FL Studio. Maîtrise complète de l'environnement iOS, dactylographie experte, création de raccourcis iOS, création et mise en place de bots Discord.</p>
-        </div>
-    </section>
+<main>
+<section class="hero" id="accueil">
+<div class="hero-shell" data-parallax="28">
+<p class="eyebrow hero-reveal">Portfolio BTS SIO SISR</p>
+<h1 class="shine hero-reveal">Mathéo Angst.</h1>
+<p class="hero-subtitle hero-reveal">18 ans. Infrastructures, Systèmes, Réseaux & Développement Web.</p>
+<p class="hero-text hero-reveal">Passionné par l'architecture des systèmes et le développement web, je combine une approche méthodique issue de ma formation en gestion avec une expertise technique en pleine croissance. Je conçois, déploie et sécurise des solutions informatiques fiables. Je suis actuellement à la recherche d'une alternance en BTS SIO spécialité SISR pour ma deuxième année.</p>
+<div class="hero-actions hero-reveal">
+<a class="button button-primary magnetic" href="#realisations">Découvrir mes réalisations</a>
+<a class="button button-soft magnetic" href="mon_cv.pdf" download>Télécharger CV</a>
+</div>
+</div>
+<aside class="hero-panel glass" data-parallax="-22" aria-label="Domaines principaux">
+<div class="panel-top">
+<span>Objectif</span>
+<strong>Alternance SISR</strong>
+</div>
+<div class="panel-grid">
+<span>Infrastructures</span>
+<span>Systèmes</span>
+<span>Réseaux</span>
+<span>Web</span>
+</div>
+</aside>
+</section>
 
-    <section id="parcours" class="timeline-section">
-        <h2 class="shiny-text">Parcours</h2>
-        <div class="timeline-container">
-            <div class="timeline-line"></div>
-            <div class="timeline-item"><span>Janvier 2025</span><p>E.Leclerc (Soultz-Sous-Forêts). 3 semaines. Diverses tâches administratives et comptables.</p></div>
-            <div class="timeline-item"><span>Octobre 2024</span><p>WOLFF Automobiles (Soultz-Sous-Forêts). 3 semaines. Mises à jour des dossiers clients, saisie des factures et classement.</p></div>
-            <div class="timeline-item"><span>Mars 2024</span><p>TMG (Wissembourg). 1 mois. Mise à jour du site internet, saisie des factures et gestion des impayés.</p></div>
-            <div class="timeline-item"><span>Décembre 2023</span><p>Huissier de justice Da Costa (Soultz-Sous-Forêts). 1 mois. Classement, gestion des impayés et diverses tâches administratives.</p></div>
-            <div class="timeline-item"><span>Juin 2023</span><p>Collège Albert-Camus (Soufflenheim). 1 mois. Saisie des dossiers d'inscription pour la rentrée, gestion des absences et accueil des parents.</p></div>
-            <div class="timeline-item"><span>Février 2023</span><p>BAEHREL-AGRI. 1 semaine. Accueil clientèle et vérification des stocks.</p></div>
-            <div class="timeline-item"><span>Janvier 2023</span><p>HEIBY. 2 semaines. Accueil, archivage, classement et mise à jour des dossiers.</p></div>
-            <div class="timeline-item"><span>Janvier 2022</span><p>Garage Louis Grasser (Haguenau). 1 semaine. Stage de découverte au service informatique. Découverte du métier d'administrateur système.</p></div>
-        </div>
-    </section>
+<section class="section profile-section" id="profil">
+<div class="section-heading reveal-up">
+<p class="eyebrow">Profil</p>
+<h2 class="shine">Une base méthodique, une trajectoire technique.</h2>
+<p class="section-intro">Mon parcours associe la rigueur du Bac Pro AGOrA à une montée en compétences en systèmes, réseaux, virtualisation et développement web. Mon objectif est d'intégrer une équipe technique dans un cadre professionnel exigeant et formateur.</p>
+</div>
+<div class="skills-grid stagger-group">
+<article class="glass skill-card tilt-card">
+<span class="card-number">01</span>
+<h3>Infrastructures & Réseaux</h3>
+<p>Déploiement matériel, câblage structuré, diagnostic et résolution d'incidents de premier niveau. Maintenance proactive de parcs informatiques, administration d'environnements Windows et gestion de machines virtuelles.</p>
+</article>
+<article class="glass skill-card tilt-card">
+<span class="card-number">02</span>
+<h3>Développement Web</h3>
+<p>Intégration web moderne et responsive via HTML5 et CSS3. Création d'interfaces fluides et optimisation de l'expérience utilisateur.</p>
+</article>
+<article class="glass skill-card tilt-card">
+<span class="card-number">03</span>
+<h3>Outils & Automatisation</h3>
+<p>Maîtrise de la suite Microsoft Office, SketchUp Make et FL Studio. Expertise avancée de l'écosystème iOS (création de flux d'automatisation) et développement de bots Discord personnalisés.</p>
+</article>
+</div>
+</section>
 
-    <section id="projets" class="projects-container">
-        <h2 class="shiny-text">Projets BTS SIO</h2>
-        <div class="horizontal-wrapper">
-            <div class="project-card">
-                <h3>Projet Linux</h3>
-                <p>Déploiement et configuration de serveurs sous Debian.</p>
-            </div>
-            <div class="project-card">
-                <h3>Cyber sécurité</h3>
-                <p>Mise en place de protocoles de sécurité et tests d'intrusion.</p>
-            </div>
-        </div>
+<section class="section timeline-section" id="parcours">
+<div class="section-heading centered reveal-up">
+<p class="eyebrow">Parcours</p>
+<h2 class="shine">Expériences professionnelles.</h2>
+<p class="section-intro">Les stages de janvier 2023 à janvier 2025 ont été réalisés dans le cadre de mon Bac Pro AGOrA. Ils ont consolidé mon sens de l'organisation, de la fiabilité documentaire et du suivi administratif.</p>
+</div>
+<div class="timeline">
+<div class="timeline-track">
+<div class="timeline-progress"></div>
+</div>
+<article class="timeline-item">
+<time>Janvier 2025</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>E.Leclerc (Soultz-Sous-Forêts)</h3>
+<p>3 semaines. Gestion administrative, suivi comptable et organisation documentaire.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Octobre 2024</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>WOLFF Automobiles (Soultz-Sous-Forêts)</h3>
+<p>3 semaines. Mise à jour de bases de données clients, facturation et archivage structuré.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Mars 2024</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>TMG (Wissembourg)</h3>
+<p>1 mois. Actualisation du site web corporatif, facturation et suivi rigoureux des impayés.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Décembre 2023</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>Huissier de justice Da Costa (Soultz-Sous-Forêts)</h3>
+<p>1 mois. Traitement de dossiers complexes, gestion des contentieux et archivage légal.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Juin 2023</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>Collège Albert-Camus (Soufflenheim)</h3>
+<p>1 mois. Gestion informatisée des inscriptions scolaires, suivi des absences et accueil du public.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Février 2023</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>BAEHREL-AGRI</h3>
+<p>1 semaine. Réception de la clientèle et audits d'inventaire des stocks.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Janvier 2023</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage Bac Pro AGOrA</span>
+<h3>HEIBY</h3>
+<p>2 semaines. Accueil, gestion de l'information et actualisation des dossiers physiques et numériques.</p>
+</div>
+</article>
+<article class="timeline-item">
+<time>Janvier 2022</time>
+<div class="glass timeline-card">
+<span class="timeline-badge">Stage découverte</span>
+<h3>Garage Louis Grasser (Haguenau)</h3>
+<p>1 semaine. Immersion au sein du service informatique : observation de l'administration système et assistance aux utilisateurs.</p>
+</div>
+</article>
+</div>
+</section>
 
-        <h2 class="shiny-text" style="margin-top: 80px;">Mes Sites</h2>
-        <div class="horizontal-wrapper" id="web-projects">
-            <div class="project-card">
-                <div>
-                    <h3>Garage Bakatselos</h3>
-                    <ul>
-                        <li>Migration BDD locale vers o2switch</li>
-                        <li>Configuration Cpanel</li>
-                        <li>Certification HTTPS</li>
-                        <li>Tests de sécurité et débug complet</li>
-                    </ul>
-                </div>
-                <a href="https://garage-bakatselos.fr" class="project-link" target="_blank">garage-bakatselos.fr →</a>
-            </div>
-            <div class="project-card">
-                <div>
-                    <h3>Maison Hermerswiller</h3>
-                    <p>Site historique pour l'association d'Hermerswiller.</p>
-                </div>
-                <a href="https://maison-alsace.github.io/histoire/" class="project-link" target="_blank">Voir l'histoire →</a>
-            </div>
-            <div class="project-card">
-                <div>
-                    <h3>Association Hermerswiller</h3>
-                    <p>Gestion d'événements et plateforme communautaire.</p>
-                </div>
-                <a href="https://verdant-entremet-be721e.netlify.app" class="project-link" target="_blank">Visiter →</a>
-            </div>
-            <div class="project-card">
-                <div>
-                    <h3>Mes Garages Modde</h3>
-                    <p>Site vitrine dédié aux véhicules moddés GTA.</p>
-                </div>
-                <a href="https://mesgaragesmodde.fr/" class="project-link" target="_blank">mesgaragesmodde.fr →</a>
-            </div>
-            <div class="project-card">
-                <div>
-                    <h3>Zina Panel</h3>
-                    <p>Panel de gestion de prises de commande.</p>
-                </div>
-                <span class="project-link">Accès privé</span>
-            </div>
-            <div class="project-card">
-                <div>
-                    <h3>Portfolio v1</h3>
-                    <p>Lien vers l'ancienne version de mon site.</p>
-                </div>
-                <a href="https://matheoangst.github.io/cv/" class="project-link" target="_blank">Ouvrir l'archive →</a>
-            </div>
-        </div>
+<section class="section projects-section" id="projets">
+<div class="section-heading reveal-up">
+<p class="eyebrow">Projets BTS SIO</p>
+<h2 class="shine">Compétences techniques appliquées.</h2>
+</div>
+<div class="bts-grid stagger-group">
+<article class="glass project-card">
+<span class="tag">Linux</span>
+<h3>Projet Linux</h3>
+<p>Déploiement, configuration et administration de services sur environnement Linux.</p>
+<button class="secondary-btn magnetic" type="button" data-project="linux">Détails</button>
+</article>
+<article class="glass project-card">
+<span class="tag">Sécurité</span>
+<h3>Projet Cyber sécurité</h3>
+<p>Mise en œuvre de protocoles de sécurité, audits de vulnérabilité et protection des systèmes d'information.</p>
+<button class="secondary-btn magnetic" type="button" data-project="cyber">Détails</button>
+</article>
+</div>
+</section>
 
-        <h2 class="shiny-text" style="margin-top: 80px;">Maquettes</h2>
-        <div class="horizontal-wrapper">
-            <div class="project-card">
-                <h3>Auto-écoles</h3>
-                <p>Entraînement UI/UX sur le secteur de la conduite (Local).</p>
-            </div>
-            <div class="project-card">
-                <h3>Agrimat</h3>
-                <p>Refonte moderne d'un site agricole obsolète (Local).</p>
-            </div>
-        </div>
-    </section>
+<section class="horizontal-section" id="realisations">
+<div class="horizontal-pin">
+<div class="horizontal-header centered">
+<p class="eyebrow">Mes réalisations</p>
+<h2 class="shine">Mes réalisations</h2>
+<p>Découvrez l'ensemble de mes travaux, migrations et développements web détaillés dans un espace dédié.</p>
+<div class="hero-actions">
+<a class="button button-primary magnetic" href="mes-sites.html">Découvrir toutes mes réalisations</a>
+</div>
+</div>
+</div>
+</section>
 
-    <section id="contact" class="contact-section">
-        <h2 class="shiny-text">On passe aux choses sérieuses.</h2>
-        <p>Disponible immédiatement pour une alternance SISR.</p>
-        <p style="font-weight: 700; margin-top: 10px;">angstmatheo67@gmail.com | 07 67 99 34 33</p>
-        
-        <form class="contact-form">
-            <input type="text" placeholder="Nom complet">
-            <input type="email" placeholder="Adresse email">
-            <textarea rows="5" placeholder="Votre message"></textarea>
-            <button type="submit">Envoyer la proposition</button>
-        </form>
-    </section>
+<section class="section training-section">
+<div class="section-heading reveal-up">
+<p class="eyebrow">Entraînements & Maquettes</p>
+<h2 class="shine">Projets locaux et expérimentations.</h2>
+</div>
+<div class="training-grid stagger-group">
+<article class="glass project-card">
+<span class="tag">Projet local</span>
+<h3>Auto-écoles</h3>
+<p>Maquettage et développement front-end d'un site vitrine ciblant le secteur de l'apprentissage de la conduite.</p>
+<div class="card-actions">
+<button class="secondary-btn magnetic" type="button" data-project="autoecoles">Détails</button>
+<a class="text-link magnetic" href="etoileautoecole/index.html" target="_blank" rel="noreferrer">Ouvrir localement</a>
+</div>
+</article>
+<article class="glass project-card">
+<span class="tag">Projet local</span>
+<h3>Agrimat</h3>
+<p>Refonte complète et modernisation de l'interface utilisateur d'un site industriel datant de 2015.</p>
+<div class="card-actions">
+<button class="secondary-btn magnetic" type="button" data-project="agrimat">Détails</button>
+<a class="text-link magnetic" href="public/agrimat/index.html" target="_blank" rel="noreferrer">Ouvrir localement</a>
+</div>
+</article>
+</div>
+</section>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+<section class="section contact-section" id="contact">
+<div class="contact-grid">
+<div class="contact-copy reveal-up">
+<p class="eyebrow">Contact</p>
+<h2 class="shine">Discutons de votre infrastructure.</h2>
+<p>Je suis à votre entière disposition pour échanger sur une opportunité d'alternance en SISR.</p>
+<div class="contact-info">
+<a class="magnetic" href="mailto:angstmatheo67@gmail.com">angstmatheo67@gmail.com</a>
+<span>|</span>
+<a class="magnetic" href="tel:+33767993433">07 67 99 34 33</a>
+</div>
+</div>
+<form class="glass contact-form reveal-up" id="contact-form">
+<label class="form-field">
+<input type="text" name="name" autocomplete="name" placeholder=" " required>
+<span>Nom</span>
+</label>
+<label class="form-field email-field">
+<input type="email" name="email" autocomplete="email" placeholder=" " required>
+<span>Email</span>
+</label>
+<label class="form-field">
+<textarea name="message" rows="6" placeholder=" " required></textarea>
+<span>Message</span>
+</label>
+<button class="button button-primary magnetic" type="submit">Envoyer</button>
+<p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+</form>
+</div>
+</section>
+</main>
 
-        gsap.from(".hero > *", {
-            y: 60,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: "power4.out"
-        });
+<aside class="drawer-backdrop" aria-hidden="true"></aside>
+<aside class="project-drawer" aria-hidden="true" aria-label="Détails du projet">
+<button class="drawer-close magnetic" type="button" aria-label="Fermer">×</button>
+<span class="tag drawer-tag"></span>
+<h3 class="drawer-title"></h3>
+<p class="drawer-text"></p>
+<ul class="drawer-list"></ul>
+<a class="button button-primary magnetic drawer-link" href="#" target="_blank" rel="noreferrer">Ouvrir le projet</a>
+</aside>
 
-        gsap.from(".skill-card", {
-            scrollTrigger: {
-                trigger: ".skills",
-                start: "top 85%"
-            },
-            y: 80,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power3.out"
-        });
+<footer class="site-footer">
+<div class="footer-outline">Mathéo Angst</div>
+<p>Mathéo Angst · BTS SIO SISR</p>
+</footer>
 
-        gsap.to(".timeline-line", {
-            scrollTrigger: {
-                trigger: ".timeline-container",
-                start: "top 60%",
-                end: "bottom 60%",
-                scrub: 1
-            },
-            height: "100%",
-            ease: "none"
-        });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+<script>
+const body = document.body;
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelectorAll(".nav-links a");
+const contactForm = document.querySelector("#contact-form");
+const formStatus = document.querySelector("#form-status");
+const cursorDot = document.querySelector(".cursor-dot");
+const cursorRing = document.querySelector(".cursor-ring");
+const detailButtons = document.querySelectorAll("[data-project]");
+const drawer = document.querySelector(".project-drawer");
+const drawerBackdrop = document.querySelector(".drawer-backdrop");
+const drawerClose = document.querySelector(".drawer-close");
+const drawerTag = document.querySelector(".drawer-tag");
+const drawerTitle = document.querySelector(".drawer-title");
+const drawerText = document.querySelector(".drawer-text");
+const drawerList = document.querySelector(".drawer-list");
+const drawerLink = document.querySelector(".drawer-link");
+const preloader = document.querySelector(".preloader");
+const preloaderCount = document.querySelector(".preloader-count");
+const siteHeader = document.querySelector(".site-header");
+let lastScrollY = window.scrollY;
 
-        gsap.from(".timeline-item", {
-            scrollTrigger: {
-                trigger: ".timeline-container",
-                start: "top 70%"
-            },
-            x: -30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out"
-        });
+const projectData = {
+linux: {
+tag: "Projet BTS SIO",
+title: "Projet Linux",
+text: "Déploiement, configuration et administration de services sur environnement Linux.",
+details: ["Administration système", "Configuration de services", "Gestion des droits et de la documentation technique"]
+},
+cyber: {
+tag: "Projet BTS SIO",
+title: "Projet Cyber sécurité",
+text: "Mise en œuvre de protocoles de sécurité, audits de vulnérabilité et protection des systèmes d'information.",
+details: ["Analyse des risques", "Audit de vulnérabilité", "Bonnes pratiques de protection des systèmes"]
+},
+garage: {
+tag: "Production",
+title: "Garage Bakatselos",
+text: "Migration complète de l'environnement local vers l'hébergeur o2switch. Configuration avancée du cPanel, déploiement du certificat SSL/HTTPS, sécurisation globale de l'application et résolution d'anomalies techniques.",
+details: ["Exportation et importation de la base de données", "Transfert complet des fichiers du site", "Configuration cPanel et HTTPS", "Tests de sécurité et correction d'anomalies"],
+link: "https://garage-bakatselos.fr"
+},
+maison: {
+tag: "Patrimoine",
+title: "Maison Hermerswiller",
+text: "Conception et intégration d'une plateforme vitrine dédiée à la valorisation du patrimoine historique local.",
+details: ["Structure éditoriale claire", "Publication GitHub Pages", "Interface responsive"],
+link: "https://maison-alsace.github.io/histoire/"
+},
+association: {
+tag: "Association",
+title: "Association d'Hermerswiller",
+text: "Développement d'un espace digital centralisant la communication et les événements de l'association.",
+details: ["Communication associative", "Présentation des événements", "Mise en ligne Netlify"],
+link: "https://verdant-entremet-be721e.netlify.app"
+},
+garages: {
+tag: "GTA",
+title: "Mes Garages Moddés",
+text: "Création d'un site vitrine spécialisé présentant une collection de véhicules modifiés pour l'environnement GTA.",
+details: ["Présentation visuelle", "Organisation par collection", "Expérience responsive"],
+link: "https://mesgaragesmodde.fr/"
+},
+zina: {
+tag: "Panel privé",
+title: "Zina Panel",
+text: "Développement d'une interface d'administration privée et sécurisée dédiée à la gestion centralisée des commandes.",
+details: ["Interface d'administration", "Gestion centralisée", "Usage privé"]
+},
+portfolio: {
+tag: "Archive",
+title: "Ancienne version du portfolio",
+text: "Première itération de mon identité numérique professionnelle.",
+details: ["Première version publique", "Base de progression", "Portfolio GitHub Pages"],
+link: "https://matheoangst.github.io/cv/"
+},
+autoecoles: {
+tag: "Projet local",
+title: "Auto-écoles",
+text: "Maquettage et développement front-end d'un site vitrine ciblant le secteur de l'apprentissage de la conduite.",
+details: ["Maquette front-end", "Ergonomie et lisibilité", "Projet local"],
+link: "etoileautoecole/index.html"
+},
+agrimat: {
+tag: "Projet local",
+title: "Agrimat",
+text: "Refonte complète et modernisation de l'interface utilisateur d'un site industriel datant de 2015.",
+details: ["Modernisation UI", "Refonte responsive", "Projet local"],
+link: "public/agrimat/index.html"
+}
+};
 
-        const horizontals = document.querySelectorAll('.horizontal-wrapper');
-        horizontals.forEach(wrapper => {
-            gsap.from(wrapper.children, {
-                scrollTrigger: {
-                    trigger: wrapper,
-                    start: "top 85%"
-                },
-                x: 100,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.1,
-                ease: "power3.out"
-            });
-        });
+window.addEventListener("scroll", () => {
+if (window.scrollY > 100) {
+if (window.scrollY > lastScrollY) {
+siteHeader.style.transform = "translateY(-120%)";
+} else {
+siteHeader.style.transform = "translateY(0)";
+}
+} else {
+siteHeader.style.transform = "translateY(0)";
+}
+lastScrollY = window.scrollY;
+}, { passive: true });
 
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+menuToggle.addEventListener("click", () => {
+const isOpen = body.classList.toggle("menu-open");
+menuToggle.setAttribute("aria-expanded", String(isOpen));
+});
 
-        horizontals.forEach(slider => {
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            });
-            slider.addEventListener('mouseleave', () => isDown = false);
-            slider.addEventListener('mouseup', () => isDown = false);
-            slider.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2;
-                slider.scrollLeft = scrollLeft - walk;
-            });
-        });
-    </script>
+navLinks.forEach((link) => {
+link.addEventListener("click", () => {
+body.classList.remove("menu-open");
+menuToggle.setAttribute("aria-expanded", "false");
+});
+});
+
+const openDrawer = (key) => {
+const data = projectData[key];
+if (!data) {
+return;
+}
+drawerTag.textContent = data.tag;
+drawerTitle.textContent = data.title;
+drawerText.textContent = data.text;
+drawerList.innerHTML = "";
+data.details.forEach((detail) => {
+const item = document.createElement("li");
+item.textContent = detail;
+drawerList.appendChild(item);
+});
+if (data.link) {
+drawerLink.href = data.link;
+drawerLink.classList.remove("is-hidden");
+} else {
+drawerLink.classList.add("is-hidden");
+}
+body.classList.add("drawer-open");
+drawer.setAttribute("aria-hidden", "false");
+drawerBackdrop.setAttribute("aria-hidden", "false");
+if (window.gsap) {
+gsap.to(drawerBackdrop, {
+opacity: 1,
+duration: 0.28,
+ease: "power2.out"
+});
+gsap.to(drawer, {
+x: "0%",
+duration: 0.62,
+ease: "power4.out"
+});
+} else {
+drawerBackdrop.style.opacity = "1";
+drawer.style.transform = "translateX(0%)";
+}
+};
+
+const closeDrawer = () => {
+if (window.gsap) {
+gsap.to(drawerBackdrop, {
+opacity: 0,
+duration: 0.24,
+ease: "power2.out"
+});
+gsap.to(drawer, {
+x: "110%",
+duration: 0.42,
+ease: "power3.in",
+onComplete: () => {
+body.classList.remove("drawer-open");
+drawer.setAttribute("aria-hidden", "true");
+drawerBackdrop.setAttribute("aria-hidden", "true");
+}
+});
+} else {
+drawerBackdrop.style.opacity = "0";
+drawer.style.transform = "translateX(110%)";
+body.classList.remove("drawer-open");
+}
+};
+
+detailButtons.forEach((button) => {
+button.addEventListener("click", (event) => {
+event.preventDefault();
+event.stopPropagation();
+openDrawer(button.dataset.project);
+});
+});
+
+drawerClose.addEventListener("click", closeDrawer);
+drawerBackdrop.addEventListener("click", closeDrawer);
+window.addEventListener("keydown", (event) => {
+if (event.key === "Escape" && body.classList.contains("drawer-open")) {
+closeDrawer();
+}
+});
+
+contactForm.addEventListener("submit", (event) => {
+event.preventDefault();
+const data = new FormData(contactForm);
+const name = String(data.get("name")).trim();
+const email = String(data.get("email")).trim();
+const message = String(data.get("message")).trim();
+const subject = encodeURIComponent(`Contact portfolio - ${name}`);
+const bodyMessage = encodeURIComponent(`Nom : ${name}\nEmail : ${email}\n\n${message}`);
+formStatus.textContent = "Ouverture de votre application mail...";
+window.location.href = `mailto:angstmatheo67@gmail.com?subject=${subject}&body=${bodyMessage}`;
+setTimeout(() => {
+formStatus.textContent = "Si rien ne s'est ouvert, écrivez directement à angstmatheo67@gmail.com.";
+}, 900);
+});
+
+const initCursor = () => {
+if (!window.matchMedia("(pointer: fine)").matches || !window.gsap) {
+return;
+}
+body.classList.add("cursor-ready");
+body.classList.add("cursor-active");
+window.addEventListener("pointermove", (event) => {
+gsap.to(cursorDot, {
+x: event.clientX,
+y: event.clientY,
+duration: 0.16,
+ease: "power2.out"
+});
+gsap.to(cursorRing, {
+x: event.clientX,
+y: event.clientY,
+duration: 0.5,
+ease: "power3.out"
+});
+}, { passive: true });
+document.querySelectorAll("a, button, input, textarea, .magnetic").forEach((element) => {
+element.addEventListener("mouseenter", () => body.classList.add("cursor-hover"));
+element.addEventListener("mouseleave", () => body.classList.remove("cursor-hover"));
+});
+};
+
+const initTilt = () => {
+if (window.VanillaTilt && window.matchMedia("(pointer: fine)").matches) {
+VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+max: 8,
+speed: 650,
+glare: true,
+"max-glare": 0.22,
+scale: 1.015
+});
+}
+};
+
+const runPreloader = () => {
+if (!window.gsap) {
+preloader.style.display = "none";
+body.classList.remove("loading");
+return;
+}
+const state = {
+value: 0
+};
+const timeline = gsap.timeline({
+defaults: {
+ease: "power3.out"
+}
+});
+timeline.to(state, {
+value: 100,
+duration: 0.95,
+ease: "power2.inOut",
+onUpdate: () => {
+preloaderCount.textContent = `${Math.round(state.value)}%`;
+}
+}).to(".preloader-name", {
+clipPath: "inset(0 0 0% 0)",
+duration: 0.62
+}, "-=0.25").to(preloader, {
+yPercent: -100,
+duration: 0.9,
+ease: "power4.inOut",
+onComplete: () => {
+preloader.remove();
+body.classList.remove("loading");
+ScrollTrigger.refresh();
+}
+}, "+=0.25");
+};
+
+if (window.gsap && window.ScrollTrigger) {
+gsap.registerPlugin(ScrollTrigger);
+initCursor();
+initTilt();
+runPreloader();
+
+gsap.set(".hero-reveal", {
+y: 48,
+opacity: 0,
+filter: "blur(12px)"
+});
+
+gsap.timeline({
+defaults: {
+ease: "power3.out"
+},
+delay: 1.65
+}).to(".hero-reveal", {
+y: 0,
+opacity: 1,
+filter: "blur(0px)",
+duration: 1.05,
+stagger: 0.12
+}).fromTo(".hero-panel", {
+y: 40,
+opacity: 0,
+scale: 0.94
+}, {
+y: 0,
+opacity: 1,
+scale: 1,
+duration: 1,
+ease: "power3.out"
+}, "-=0.45");
+
+gsap.to(".scroll-progress", {
+width: "100%",
+ease: "none",
+scrollTrigger: {
+trigger: document.documentElement,
+start: "top top",
+end: "bottom bottom",
+scrub: 0.3
+}
+});
+
+gsap.utils.toArray(".reveal-up").forEach((element) => {
+gsap.fromTo(element, {
+y: 46,
+opacity: 0,
+filter: "blur(10px)"
+}, {
+y: 0,
+opacity: 1,
+filter: "blur(0px)",
+duration: 0.9,
+ease: "power3.out",
+scrollTrigger: {
+trigger: element,
+start: "top 84%"
+}
+});
+});
+
+gsap.utils.toArray(".stagger-group").forEach((group) => {
+const children = gsap.utils.toArray(group.children);
+gsap.fromTo(children, {
+y: 58,
+opacity: 0,
+scale: 0.96,
+filter: "blur(12px)"
+}, {
+y: 0,
+opacity: 1,
+scale: 1,
+filter: "blur(0px)",
+duration: 0.95,
+ease: "power3.out",
+stagger: 0.12,
+scrollTrigger: {
+trigger: group,
+start: "top 82%"
+}
+});
+});
+
+gsap.utils.toArray("[data-parallax]").forEach((element) => {
+const distance = Number(element.dataset.parallax);
+gsap.to(element, {
+y: distance,
+ease: "none",
+scrollTrigger: {
+trigger: element,
+start: "top bottom",
+end: "bottom top",
+scrub: 1
+}
+});
+});
+
+gsap.fromTo(".timeline-item", {
+x: 36,
+opacity: 0,
+filter: "blur(10px)"
+}, {
+x: 0,
+opacity: 1,
+filter: "blur(0px)",
+duration: 0.9,
+ease: "power3.out",
+stagger: 0.12,
+scrollTrigger: {
+trigger: ".timeline",
+start: "top 76%"
+}
+});
+
+gsap.to(".timeline-progress", {
+height: "100%",
+ease: "none",
+scrollTrigger: {
+trigger: ".timeline",
+start: "top 68%",
+end: "bottom 58%",
+scrub: true
+}
+});
+
+gsap.utils.toArray(".timeline-item").forEach((item) => {
+ScrollTrigger.create({
+trigger: item,
+start: "top 64%",
+end: "bottom 48%",
+toggleClass: {
+targets: item,
+className: "is-active"
+}
+});
+});
+
+const horizontalTrack = document.querySelector(".horizontal-track");
+const horizontalSection = document.querySelector(".horizontal-section");
+const horizontalPin = document.querySelector(".horizontal-pin");
+const mm = gsap.matchMedia();
+
+if (horizontalTrack && horizontalSection && horizontalPin) {
+mm.add("(min-width: 1025px)", () => {
+const getDistance = () => {
+const lastCard = horizontalTrack.querySelector(".horizontal-card:last-child");
+if (!lastCard) {
+return 0;
+}
+return Math.max(0, lastCard.offsetLeft + lastCard.offsetWidth - window.innerWidth + 40);
+};
+gsap.fromTo(".stagger-horizontal > *", {
+y: 56,
+opacity: 0,
+scale: 0.96,
+filter: "blur(12px)"
+}, {
+y: 0,
+opacity: 1,
+scale: 1,
+filter: "blur(0px)",
+duration: 0.95,
+ease: "power3.out",
+stagger: 0.1,
+scrollTrigger: {
+trigger: horizontalSection,
+start: "top 74%"
+}
+});
+const horizontalTween = gsap.to(horizontalTrack, {
+x: () => -getDistance(),
+ease: "none",
+scrollTrigger: {
+trigger: horizontalSection,
+pin: horizontalPin,
+start: "top top",
+end: () => `+=${getDistance() + window.innerHeight * 0.45}`,
+scrub: 1,
+invalidateOnRefresh: true
+}
+});
+horizontalTween.eventCallback("onUpdate", () => {
+const depth = gsap.utils.interpolate(-34, 34, horizontalTween.progress());
+gsap.set(".visual-parallax", {
+x: depth
+});
+});
+});
+
+mm.add("(max-width: 1024px)", () => {
+gsap.fromTo(".stagger-horizontal > *", {
+y: 56,
+opacity: 0,
+scale: 0.96,
+filter: "blur(12px)"
+}, {
+y: 0,
+opacity: 1,
+scale: 1,
+filter: "blur(0px)",
+duration: 0.95,
+ease: "power3.out",
+stagger: 0.1,
+scrollTrigger: {
+trigger: ".horizontal-track",
+start: "top 82%"
+}
+});
+});
+}
+} else {
+preloader.style.display = "none";
+body.classList.remove("loading");
+document.querySelectorAll(".hero-reveal, .reveal-up, .stagger-group > *, .timeline-item, .stagger-horizontal > *").forEach((element) => {
+element.style.opacity = "1";
+element.style.transform = "translateY(0)";
+element.style.filter = "none";
+});
+}
+
+const sectionObserver = new IntersectionObserver((entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+const activeId = entry.target.id === "realisations" ? "projets" : entry.target.id;
+navLinks.forEach((link) => {
+link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+});
+}
+});
+}, {
+threshold: 0.45
+});
+
+document.querySelectorAll("main section[id]").forEach((section) => sectionObserver.observe(section));
+</script>
 </body>
 </html>
