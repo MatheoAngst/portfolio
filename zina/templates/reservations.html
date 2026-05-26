@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Zina Lounge - Reservations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rouge: #7c1c1c;
+            --rouge-dark: #5a1212;
+            --rouge-light: #f5eaea;
+            --gold: #c9a84c;
+            --gold-light: #f7f0e0;
+            --noir: #1a1a1a;
+            --gris: #f4f1ee;
+            --gris-border: #e0d9d0;
+            --texte: #2c2c2c;
+            --blanc: #ffffff;
+            --vert: #2d6a4f;
+            --vert-light: #eaf4ef;
+            --danger: #c0392b;
+            --danger-light: #fdf0ee;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #ede9e3;
+            color: var(--texte);
+            min-height: 100vh;
+        }
+
+        .app-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--blanc);
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(0,0,0,0.15);
+        }
+
+        header {
+            background: var(--rouge);
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .header-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-brand h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.02em;
+            line-height: 1;
+        }
+
+        .header-brand span {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            color: var(--gold);
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+
+        .btn-nav:hover { background: rgba(255,255,255,0.25); }
+        .btn-nav.active { background: white; color: var(--rouge); }
+
+        .view { display: none; padding: 20px; }
+        .view.active { display: block; }
+
+        .add-table-box {
+            background: var(--gris);
+            border: 1px solid var(--gris-border);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .add-table-box h2 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--rouge);
+            margin-bottom: 12px;
+        }
+
+        .add-table-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-table-form input {
+            flex: 1;
+            border: 2px solid var(--gris-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.15s;
+            background: white;
+        }
+
+        .add-table-form input:focus { border-color: var(--rouge); }
+
+        .btn-add-table {
+            background: var(--vert);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1;
+        }
+
+        .btn-add-table:hover { background: #245840; transform: scale(1.05); }
+        .btn-add-table:active { transform: scale(0.97); }
+
+        .stats-table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--gris-border);
+            border-radius: 12px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .stats-table thead {
+            background: var(--gris);
+        }
+
+        .stats-table th {
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #8a7a6a;
+            border-bottom: 1px solid var(--gris-border);
+        }
+
+        .stats-table th.right { text-align: right; }
+        .stats-table th.center { text-align: center; }
+
+        .stats-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--gris-border);
+            vertical-align: middle;
+        }
+
+        .stats-table tr:last-child td { border-bottom: none; }
+        .stats-table tr:hover td { background: var(--gris); }
+
+        .td-right { text-align: right; font-weight: 600; }
+        .td-center { text-align: center; }
+
+        .td-table-name { font-weight: 700; color: var(--rouge); }
+
+        .btn-suppr {
+            background: var(--danger-light);
+            color: var(--danger);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-suppr:hover { background: var(--danger); color: white; }
+
+        @media print {
+            .no-print { display: none !important; }
+            header { position: static; }
+            .app-wrapper { box-shadow: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+
+    <header class="no-print">
+        <div class="header-brand">
+            <h1>Zina Lounge</h1>
+            <span>Panel de gestion</span>
+        </div>
+        <div class="header-actions" style="flex-wrap: wrap; justify-content: flex-end;">
+            <a href="/" class="btn-nav">Tables / Ventes</a>
+            <a href="/reservations" class="btn-nav active">Reservations</a>
+        </div>
+    </header>
+
+    <div id="view-reservations" class="view active">
+        <div class="add-table-box no-print">
+            <h2>Nouvelle Reservation</h2>
+            <div class="add-table-form" style="flex-wrap: wrap;">
+                <input type="text" id="res-name" placeholder="Nom du client" autocomplete="off" style="min-width: 150px;">
+                <input type="date" id="res-date" style="min-width: 130px;">
+                <input type="time" id="res-time" style="min-width: 100px;">
+                <input type="number" id="res-guests" placeholder="Pers." min="1" style="min-width: 80px;">
+                <button type="button" onclick="addReservation()" class="btn-add-table" style="font-size: 1rem; padding: 10px 18px;">Ajouter</button>
+            </div>
+        </div>
+
+        <div class="stats-table-wrapper">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Nom du Client</th>
+                        <th class="center">Pers.</th>
+                        <th class="center no-print">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="reservations-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        loadReservations();
+    });
+
+    async function loadReservations() {
+        try {
+            const res = await fetch('/api/reservations');
+            if (!res.ok) throw new Error('Erreur serveur');
+            const data = await res.json();
+            
+            const container = document.getElementById('reservations-list');
+            if (data.length === 0) {
+                container.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#b0a090;padding:24px;font-style:italic;">Aucune reservation enregistree</td></tr>';
+                return;
+            }
+            
+            container.innerHTML = data.map(r => {
+                const parts = r.res_date.split('-');
+                const dateFr = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : r.res_date;
+
+                return `
+                <tr>
+                    <td><strong>${dateFr}</strong></td>
+                    <td>${r.res_time}</td>
+                    <td class="td-table-name">${r.name.replace(/"/g, '&quot;')}</td>
+                    <td class="td-center">${r.guests}</td>
+                    <td class="td-center no-print">
+                        <button type="button" class="btn-suppr" onclick="deleteReservation(${r.id})">Suppr.</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        } catch (err) {}
+    }
+
+    async function addReservation() {
+        const nameInput = document.getElementById('res-name');
+        const dateInput = document.getElementById('res-date');
+        const timeInput = document.getElementById('res-time');
+        const guestsInput = document.getElementById('res-guests');
+        
+        const name = nameInput.value.trim();
+        const date = dateInput.value;
+        const time = timeInput.value;
+        const guests = guestsInput.value;
+        
+        if (!name || !date || !time || !guests) {
+            alert('Veuillez remplir tous les champs pour la reservation.');
+            return;
+        }
+        
+        try {
+            const res = await fetch('/api/reservations', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, date, time, guests: parseInt(guests)})
+            });
+            if (!res.ok) throw new Error('Erreur serveur');
+            
+            nameInput.value = '';
+            dateInput.value = '';
+            timeInput.value = '';
+            guestsInput.value = '';
+            
+            loadReservations();
+        } catch (err) {}
+    }
+
+    async function deleteReservation(id) {
+        if (!confirm('Etes-vous sur de vouloir supprimer cette reservation ?')) return;
+        try {
+            await fetch(`/api/reservations/${id}`, {method: 'DELETE'});
+            loadReservations();
+        } catch (err) {}
+    }
+</script>
+</body>
+</html>
