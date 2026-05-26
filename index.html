@@ -2213,7 +2213,7 @@ element.style.filter = "none";
 const sectionObserver = new IntersectionObserver((entries) => {
 entries.forEach((entry) => {
 if (entry.isIntersecting) {
-const activeId = entry.target.id === "realisations" ? "projets" : entry.target.id; align=center,
+const activeId = entry.target.id === "realisations" ? "projets" : entry.target.id;
 navLinks.forEach((link) => {
 link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
 });
