@@ -138,10 +138,34 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 gsap.registerPlugin(ScrollTrigger);
 }
 
-const mm = gsap.matchMedia();
+const mm = typeof gsap.matchMedia === "function" ? gsap.matchMedia() : null;
 
+const resetHorizontalTracks = () => {
+body.classList.remove("gsap-horizontal");
+document.querySelectorAll(".horizontal-track").forEach((track) => {
+track.scrollLeft = 0;
+});
+gsap.set(".horizontal-track", {
+clearProps: "transform,willChange"
+});
+};
+
+const killHorizontalTriggers = () => {
+ScrollTrigger.getAll().forEach((trigger) => {
+const triggerElement = trigger.trigger;
+if (triggerElement && (triggerElement.classList?.contains("project-section-horizontal") || triggerElement.closest?.(".project-section-horizontal"))) {
+trigger.kill(true);
+}
+});
+};
+
+if (mm) {
 mm.add("(min-width: 1025px)", () => {
 body.classList.add("gsap-horizontal");
+
+gsap.utils.toArray(".horizontal-track").forEach((track) => {
+track.scrollLeft = 0;
+});
 
 gsap.utils.toArray(".project-card").forEach((card) => {
 gsap.fromTo(card, {
@@ -154,7 +178,8 @@ duration: 0.9,
 ease: "power3.out",
 scrollTrigger: {
 trigger: card,
-start: "top 82%"
+start: "top 82%",
+invalidateOnRefresh: true
 }
 });
 });
@@ -168,7 +193,8 @@ duration: 0.48,
 ease: "power2.out",
 scrollTrigger: {
 trigger: tag.closest(".project-card"),
-start: "top 78%"
+start: "top 78%",
+invalidateOnRefresh: true
 }
 });
 });
@@ -184,7 +210,8 @@ duration: 0.72,
 ease: "power3.out",
 scrollTrigger: {
 trigger: paragraph,
-start: "top 90%"
+start: "top 90%",
+invalidateOnRefresh: true
 }
 });
 });
@@ -195,10 +222,15 @@ const card = section.querySelector(".horizontal-card");
 const track = section.querySelector(".horizontal-track");
 const panels = gsap.utils.toArray(section.querySelectorAll(".project-panel"));
 
-const getDistance = () => Math.max(0, track.scrollWidth - card.clientWidth);
+if (!pinWrap || !card || !track || panels.length < 2) {
+return;
+}
+
+const getDistance = () => Math.max(0, Math.ceil(track.scrollWidth - card.clientWidth));
 
 gsap.set(track, {
-x: 0
+x: 0,
+willChange: "transform"
 });
 
 const tween = gsap.to(track, {
@@ -207,11 +239,18 @@ ease: "none",
 scrollTrigger: {
 trigger: section,
 pin: pinWrap,
+pinSpacing: true,
 start: "top top",
 end: () => `+=${getDistance() + window.innerHeight * 0.72}`,
-scrub: 1,
+scrub: 0.9,
 invalidateOnRefresh: true,
-anticipatePin: 1
+anticipatePin: 1,
+refreshPriority: 1,
+onRefreshInit: () => {
+gsap.set(track, {
+x: 0
+});
+}
 }
 });
 
@@ -228,30 +267,39 @@ containerAnimation: tween,
 trigger: panel,
 start: "left 70%",
 end: "right 62%",
-scrub: true
+scrub: true,
+invalidateOnRefresh: true
 }
 });
 });
 });
 
-return () => {
-body.classList.remove("gsap-horizontal");
-gsap.set(".horizontal-track", {
-clearProps: "transform,willChange"
+requestAnimationFrame(() => {
+ScrollTrigger.refresh();
 });
+
+return () => {
+resetHorizontalTracks();
 };
 });
 
 mm.add("(max-width: 1024px)", () => {
-body.classList.remove("gsap-horizontal");
-gsap.set(".horizontal-track", {
-clearProps: "transform,willChange"
+killHorizontalTriggers();
+resetHorizontalTracks();
+return () => {
+resetHorizontalTracks();
+};
 });
-});
+} else {
+resetHorizontalTracks();
+}
 
 window.addEventListener("load", () => {
 if (desktopMedia.matches) {
 ScrollTrigger.refresh();
+} else {
+killHorizontalTriggers();
+resetHorizontalTracks();
 }
 });
 }
