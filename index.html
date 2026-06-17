@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -281,10 +281,7 @@ overflow: hidden;
 isolation: isolate;
 padding: 150px 20px 98px;
 }
-.hero-layout {
-width: min(1240px, calc(100% - 40px));
-display: grid;
-grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+.hero-layout {`nwidth: min(1240px, calc(100% - 40px));`ndisplay: flex;`nflex-direction: column;`nalign-items: center;
 align-items: center;
 gap: clamp(36px, 5vw, 76px);
 position: relative;
@@ -294,7 +291,10 @@ z-index: 2;
 width: 100%;
 position: relative;
 z-index: 2;
-text-align: left;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 .eyebrow {
 color: var(--blue);
@@ -316,6 +316,11 @@ animation: metalShine 5.8s linear infinite;
 to {
 background-position: 260% center;
 }
+.hero h1.shine {
+background:
+linear-gradient(105deg, #ececec 0%, #182233 26%, #315996 44%, #0f1622 62%, #243044 100%);
+background-size: 220% auto;
+}
 }
 .hero h1 {
 margin-top: 16px;
@@ -324,13 +329,9 @@ font-size: clamp(4rem, 8.4vw, 9.4rem);
 line-height: 0.9;
 letter-spacing: -0.045em;
 text-wrap: balance;
-filter: drop-shadow(0 24px 52px rgba(16, 24, 40, 0.16));
+filter: drop-shadow(0 24px 52px rgb(255, 255, 255));
 }
-.hero h1.shine {
-background:
-linear-gradient(105deg, #0a0f18 0%, #182233 26%, #315996 44%, #0f1622 62%, #243044 100%);
-background-size: 220% auto;
-}
+
 .hero-subtitle {
 width: min(900px, 100%);
 margin: 28px 0 0;
@@ -349,7 +350,7 @@ font-size: clamp(1rem, 1.45vw, 1.18rem);
 }
 .hero-actions {
 display: flex;
-justify-content: flex-start;
+justify-content: center;
 flex-wrap: wrap;
 gap: 12px;
 margin-top: 36px;
@@ -568,6 +569,7 @@ box-shadow: 0 34px 100px rgba(31, 42, 68, 0.18);
 }
 .skill-card,
 .project-card {
+height: auto;
 min-height: 300px;
 padding: clamp(24px, 3vw, 34px);
 }
@@ -808,10 +810,8 @@ min-height: 0;
 padding: 26px;
 }
 .horizontal-card .project-body p {
-display: -webkit-box;
-overflow: hidden;
--webkit-line-clamp: 4;
--webkit-box-orient: vertical;
+display: block;
+overflow: visible;
 }
 .horizontal-card .card-actions {
 margin-top: auto;
@@ -1343,6 +1343,14 @@ scroll-behavior: auto !important;
 transition-duration: 0.01ms !important;
 }
 }
+.transition-text {
+width: min(800px, calc(100% - 40px));
+margin: 40px auto 0;
+text-align: center;
+color: var(--muted);
+font-size: clamp(1rem, 1.2vw, 1.1rem);
+line-height: 1.6;
+}
 </style>
 </head>
 <body class="loading">
@@ -1384,7 +1392,7 @@ transition-duration: 0.01ms !important;
 <div class="hero-shell" data-parallax="28">
 <p class="eyebrow hero-reveal">Portfolio BTS SIO SISR</p>
 <h1 class="shine hero-reveal">Mathéo Angst.</h1>
-<p class="hero-subtitle hero-reveal">18 ans. Infrastructures, Systèmes, Réseaux & Développement Web.</p>
+<p class="hero-subtitle hero-reveal">Infrastructures, Systèmes, Réseaux & Développement Web.</p>
 <p class="hero-text hero-reveal">Passionné par l'architecture des systèmes et le développement web, je combine une approche méthodique issue de ma formation en gestion avec une expertise technique en pleine croissance. Je conçois, déploie et sécurise des solutions informatiques fiables. Je suis actuellement à la recherche d'une alternance en BTS SIO spécialité SISR pour ma deuxième année.</p>
 <div class="hero-actions hero-reveal">
 <a class="button button-primary magnetic" href="#realisations">Découvrir mes réalisations</a>
@@ -1403,17 +1411,19 @@ transition-duration: 0.01ms !important;
 </div>
 </aside>
 </div>
-<div class="hero-visual-wrapper" data-parallax="-14" aria-label="Photo de profil de Mathéo Angst">
-<img src="photo-matheo.jpg" alt="Portrait de Mathéo Angst" loading="eager" decoding="async">
 </div>
 </div>
 </section>
+
+<div class="transition-text-container reveal-up">
+<p class="transition-text">Ce format numérique interactif (site) permet une exploration totale de mes réalisations, tandis que la version téléchargeable (PDF) garantit une documentation structurée pour toute étude approfondie.</p>
+</div>
 
 <section class="section profile-section" id="profil">
 <div class="section-heading reveal-up">
 <p class="eyebrow">Profil</p>
 <h2 class="shine">Une base méthodique, une trajectoire technique.</h2>
-<p class="section-intro">Mon parcours associe la rigueur du Bac Pro AGOrA à une montée en compétences en systèmes, réseaux, virtualisation et développement web. Mon objectif est d'intégrer une équipe technique dans un cadre professionnel exigeant et formateur.</p>
+<p class="section-intro">Mon parcours associe la rigueur du Bac Pro AGOrA (Dactylographie) à une montée en compétences en systèmes, réseaux, virtualisation et développement web. Mon objectif est d'intégrer une équipe technique dans un cadre professionnel exigeant et formateur.</p>
 </div>
 <div class="skills-grid stagger-group">
 <article class="glass skill-card tilt-card">
@@ -1506,7 +1516,7 @@ transition-duration: 0.01ms !important;
 <article class="timeline-item">
 <time>Janvier 2022</time>
 <div class="glass timeline-card">
-<span class="timeline-badge">Stage découverte</span>
+<span class="timeline-badge">Stage découverte (3ème)</span>
 <h3>Garage Louis Grasser (Haguenau)</h3>
 <p>1 semaine. Immersion au sein du service informatique : observation de l'administration système et assistance aux utilisateurs.</p>
 </div>
@@ -1516,7 +1526,7 @@ transition-duration: 0.01ms !important;
 
 <section class="section projects-section" id="projets">
 <div class="section-heading reveal-up">
-<p class="eyebrow">Projets BTS SIO</p>
+<p class="eyebrow">Projets EN BTS SIO</p>
 <h2 class="shine">Compétences techniques appliquées.</h2>
 </div>
 <div class="bts-grid stagger-group">
@@ -1548,32 +1558,7 @@ transition-duration: 0.01ms !important;
 </div>
 </section>
 
-<section class="section training-section">
-<div class="section-heading reveal-up">
-<p class="eyebrow">Entraînements & Maquettes</p>
-<h2 class="shine">Projets locaux et expérimentations.</h2>
-</div>
-<div class="training-grid stagger-group">
-<article class="glass project-card">
-<span class="tag">Projet local</span>
-<h3>Auto-écoles</h3>
-<p>Maquettage et développement front-end d'un site vitrine ciblant le secteur de l'apprentissage de la conduite.</p>
-<div class="card-actions">
-<button class="secondary-btn magnetic" type="button" data-project="autoecoles">Détails</button>
-<a class="text-link magnetic" href="etoileautoecole/index.html" target="_blank" rel="noreferrer">Ouvrir localement</a>
-</div>
-</article>
-<article class="glass project-card">
-<span class="tag">Projet local</span>
-<h3>Agrimat</h3>
-<p>Refonte complète et modernisation de l'interface utilisateur d'un site industriel datant de 2015.</p>
-<div class="card-actions">
-<button class="secondary-btn magnetic" type="button" data-project="agrimat">Détails</button>
-<a class="text-link magnetic" href="public/agrimat/index.html" target="_blank" rel="noreferrer">Ouvrir localement</a>
-</div>
-</article>
-</div>
-</section>
+
 
 <section class="section contact-section" id="contact">
 <div class="contact-grid">
@@ -2227,3 +2212,5 @@ document.querySelectorAll("main section[id]").forEach((section) => sectionObserv
 </script>
 </body>
 </html>
+
+
