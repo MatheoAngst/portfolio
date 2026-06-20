@@ -45,10 +45,10 @@ min-height: 100vh;
 font-family: "Inter", system-ui, sans-serif;
 color: var(--text);
 background:
-radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.17), transparent 28%),
+radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.25), transparent 28%),
 radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.92), transparent 34%),
-radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.11), transparent 38%),
-linear-gradient(180deg, #fbfcff 0%, var(--bg) 46%, #ffffff 100%);
+radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.15), transparent 38%),
+linear-gradient(180deg, #f5f7fc 0%, var(--bg) 46%, #ffffff 100%);
 line-height: 1.6;
 overflow-x: hidden;
 }
@@ -308,11 +308,8 @@ text-transform: uppercase;
 }
 .shine {
 color: transparent;
-background:
-linear-gradient(105deg, #0d1118 0%, #1f2937 28%, #345fa8 42%, #141a24 58%, #2d3748 100%);
-background-size: 220% auto;
--webkit-background-clip: text;
 background-clip: text;
+-webkit-background-clip: text;
 animation: metalShine 5.8s linear infinite;
 }
 @keyframes metalShine {
@@ -321,13 +318,11 @@ background-position: 260% center;
 }
 }
 .hero h1.shine {
-  background:
-    linear-gradient(105deg, #0a0e14 0%, #1a2540 26%, #2c3f6b 44%, #0f1622 62%, #1a2233 100%);
+  background: linear-gradient(105deg, #0a0e14 0%, #1a2540 26%, #2c3f6b 44%, #0f1622 62%, #1a2233 100%);
   background-size: 220% auto;
-}
-.hero-subtitle {
-  color: #0a0e14; /* au lieu de var(--text) qui est trop clair */
-  font-weight: 900;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 .hero h1 {
 margin-top: 16px;
@@ -338,12 +333,15 @@ letter-spacing: -0.045em;
 text-wrap: balance;
 }
 .hero-subtitle {
-  color: #0a0e14; /* au lieu de var(--text) qui est trop clair */
+  color: #0a0e14;
   font-weight: 900;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  margin-top: 12px;
 }
-
 .hero-text {
-  color: #3d4450; /* plus foncé que var(--text-soft) */
+  color: #3d4450;
+  margin-top: 18px;
+  max-width: 700px;
 }
 .hero-actions {
 display: flex;
@@ -1407,7 +1405,6 @@ line-height: 1.6;
 <span>Réseaux</span>
 </div>
 </aside>
-</div>
 </div>
 </div>
 </section>
