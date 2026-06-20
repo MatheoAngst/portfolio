@@ -45,10 +45,10 @@ min-height: 100vh;
 font-family: "Inter", system-ui, sans-serif;
 color: var(--text);
 background:
-radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.17), transparent 28%),
+radial-gradient(circle at 16% 8%, rgba(47, 109, 246, 0.25), transparent 28%),
 radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.92), transparent 34%),
-radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.11), transparent 38%),
-linear-gradient(180deg, #fbfcff 0%, var(--bg) 46%, #ffffff 100%);
+radial-gradient(circle at 54% 66%, rgba(104, 104, 255, 0.15), transparent 38%),
+linear-gradient(180deg, #f5f7fc 0%, var(--bg) 46%, #ffffff 100%);
 line-height: 1.6;
 overflow-x: hidden;
 }
@@ -318,8 +318,7 @@ background-position: 260% center;
 }
 }
 .hero h1.shine {
-background:
-linear-gradient(105deg, #ececec 0%, #182233 26%, #315996 44%, #0f1622 62%, #243044 100%);
+background: linear-gradient(105deg, #0a0e14 0%, #1a2540 26%, #2c3f6b 44%, #0f1622 62%, #1a2233 100%);
 background-size: 220% auto;
 color: transparent;
 background-clip: text;
@@ -332,23 +331,17 @@ font-size: clamp(4rem, 8.4vw, 9.4rem);
 line-height: 0.9;
 letter-spacing: -0.045em;
 text-wrap: balance;
-filter: drop-shadow(0 24px 52px rgb(255, 255, 255));
 }
 .hero-subtitle {
-width: min(900px, 100%);
-margin: 28px 0 0;
-color: var(--text);
-font-size: clamp(1.34rem, 2.4vw, 2.45rem);
+color: #0a0e14;
 font-weight: 900;
-line-height: 1.06;
-letter-spacing: -0.04em;
-text-wrap: balance;
+font-size: clamp(1.2rem, 2vw, 1.5rem);
+margin-top: 12px;
 }
 .hero-text {
-width: min(720px, 100%);
-margin: 22px 0 0;
-color: var(--text-soft);
-font-size: clamp(1rem, 1.45vw, 1.18rem);
+color: #3d4450;
+margin-top: 18px;
+max-width: 700px;
 }
 .hero-actions {
 display: flex;
@@ -1581,6 +1574,10 @@ line-height: 1.6;
 <span>Email</span>
 </label>
 <label class="form-field">
+<input type="tel" name="phone" autocomplete="tel" placeholder=" " required>
+<span>Téléphone</span>
+</label>
+<label class="form-field">
 <textarea name="message" rows="6" placeholder=" " required></textarea>
 <span>Message</span>
 </label>
@@ -1615,7 +1612,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelectorAll(".nav-links a");
 const contactForm = document.querySelector("#contact-form");
 const formStatus = document.querySelector("#form-status");
-const discordWebhookUrl = "https://discord.com/api/webhooks/1498269781290258566/CatJfLDYg4pZHz2ZHQHMO3Eb_NVMIP1lGe6TVFMVFjtkUZz9Iu8BwuTQv9ovBnCRkLW";
+const discordWebhookUrl = "https://discord.com/api/webhooks/1498269781290258566/CatJfLDYg4pZHz2ZHQHMO3Eb_NVMIP1lGe6TVFMVFjtkUZz9Iu8BwuTQv9ovBnCRkLW_";
 const cursorDot = document.querySelector(".cursor-dot");
 const cursorRing = document.querySelector(".cursor-ring");
 const detailButtons = document.querySelectorAll("[data-project]");
@@ -1812,6 +1809,7 @@ event.preventDefault();
 const data = new FormData(contactForm);
 const name = String(data.get("name") || "").trim();
 const email = String(data.get("email") || "").trim();
+const phone = String(data.get("phone") || "").trim();
 const message = String(data.get("message") || "").trim();
 const submitButton = contactForm.querySelector('button[type="submit"]');
 const initialButtonText = submitButton ? submitButton.textContent : "";
@@ -1820,7 +1818,7 @@ const limitText = (value, maxLength) => value.length > maxLength ? `${value.slic
 
 formStatus.textContent = "";
 
-if (!name || !email || !message) {
+if (!name || !email || !phone || !message) {
 formStatus.textContent = "Veuillez remplir tous les champs obligatoires.";
 return;
 }
@@ -1858,8 +1856,14 @@ value: limitText(email, 1024),
 inline: true
 },
 {
+name: "Téléphone",
+value: limitText(phone, 1024),
+inline: true
+},
+{
 name: "Corps du message",
-value: limitText(message, 1024)
+value: limitText(message, 1024),
+inline: false
 }
 ],
 timestamp: new Date().toISOString()
