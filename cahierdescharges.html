@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cahier des Charges - Création de Site Web</title>
     
+    <title>Cahier des Charges - Création de Site Web</title>
+    <meta name="description" content="Démarrez votre projet digital. Remplissez notre cahier des charges interactif pour structurer votre futur site web et obtenir une proposition sur mesure.">
+    <meta name="theme-color" content="#8b5cf6">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Démarrez votre projet Web | Cahier des Charges">
+    <meta property="og:description" content="Propulsez votre entreprise sur le web. Remplissez ce formulaire interactif pour définir votre projet digital et structurer votre futur site internet.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Démarrez votre projet Web | Cahier des Charges">
+    <meta name="twitter:description" content="Propulsez votre entreprise sur le web. Remplissez ce formulaire interactif pour définir votre projet digital.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
         :root {
-            /* Thème sombre Premium / Apple Style */
             --bg-1: #000000;
             --bg-2: #0f0a1c;
             --surface: #121214;
@@ -38,7 +50,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            background-color: var(--bg-1);
+            background-color: #000000;
             letter-spacing: -0.015em;
         }
 
@@ -48,7 +60,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, var(--bg-2) 0%, var(--bg-1) 100%);
+            background: radial-gradient(circle at center, #0f0a1c 0%, #000000 100%);
         }
 
         h1, h2, h3 { font-weight: 600; color: var(--primary); letter-spacing: -0.02em; }
@@ -447,22 +459,32 @@
                 const today = new Date().toISOString().split("T")[0];
                 dateInput.value = today;
             }
-            
             addLanguage();
         });
 
         function toggleMultilingual(checkbox) {
             const panel = document.getElementById('multilingual-options');
+            const selects = panel.querySelectorAll('.lang-select');
+            
             if (checkbox.checked) {
                 panel.style.display = 'block';
+                selects.forEach(sel => sel.required = true);
+                
+                selects.forEach(sel => {
+                    if (sel.value === 'Autre') {
+                        sel.parentElement.nextElementSibling.required = true;
+                    }
+                });
             } else {
                 panel.style.display = 'none';
+                selects.forEach(sel => sel.required = false);
+                const otherInputs = panel.querySelectorAll('.lang-other-input');
+                otherInputs.forEach(inp => inp.required = false);
             }
         }
 
         function addLanguage() {
             const container = document.getElementById("languages-container");
-            
             if (container.children.length >= 3) {
                 alert("Vous pouvez sélectionner jusqu'à 3 langues maximum.");
                 return;
@@ -488,10 +510,14 @@
                 optionsHTML += `<option value="${lang}">${lang}</option>`;
             });
 
+            // On vérifie si la section est visible pour attribuer "required" ou non lors de la création
+            const isMultiChecked = document.getElementById('feat_multi') ? document.getElementById('feat_multi').checked : false;
+            const requiredAttr = isMultiChecked ? 'required' : '';
+
             const htmlBlock = `
                 <div class="language-block" style="display: flex; flex-direction: column; gap: 8px;">
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <select class="lang-select" style="flex: 1;" required onchange="toggleOtherLanguage(this)">
+                        <select class="lang-select" style="flex: 1;" ${requiredAttr} onchange="toggleOtherLanguage(this)">
                             ${optionsHTML}
                         </select>
                         <button type="button" class="btn-remove" onclick="this.closest('.language-block').remove()">Retirer</button>
@@ -542,7 +568,6 @@
         function toggleTeam(show) {
             const teamSection = document.getElementById("team-section");
             const requiredInputs = teamSection.querySelectorAll('.team-input-required');
-            
             if (show) {
                 teamSection.style.display = "block";
                 requiredInputs.forEach(input => input.required = true);
@@ -580,7 +605,6 @@
             container.insertAdjacentHTML('beforeend', htmlBlock);
         }
 
-        // --- PARTICULES ---
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const canvas = document.getElementById('particle-bg');
         const ctx = canvas.getContext('2d');
@@ -641,8 +665,6 @@
         initParticles();
         if (!reduceMotion) animateParticles();
 
-        // --- SOUMISSION & PDF ---
-        const { jsPDF } = window.jspdf;
         const SERVICE_ID = "service_559kgtw"; 
         const TEMPLATE_ID = "template_zbi13aj";
         const PUBLIC_KEY = "BeOkhtXz2pGYYY8bQ"; 
@@ -657,163 +679,172 @@
 
             document.getElementById('loading-overlay').style.display = 'flex';
 
-            const doc = new jsPDF();
-            const client = document.getElementById('clientName').value;
-            const primaryColor = [139, 92, 246];
-            let y = 20;
-            const margin = 20;
-
-            const checkSpace = (requiredHeight) => { 
-                if (y + requiredHeight > 275) { 
-                    doc.addPage(); 
-                    y = 20; 
-                } 
-            };
-
-            const drawHLine = () => { 
-                doc.setDrawColor(230); 
-                doc.line(margin, y, 190, y); 
-                y += 10; 
-            };
-
-            doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-            doc.rect(0, 0, 210, 40, 'F');
-            doc.setTextColor(255);
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(22);
-            doc.text("CAHIER DES CHARGES WEB", margin, 26);
-            
-            y = 55;
-            doc.setTextColor(60);
-            doc.setFontSize(10);
-            doc.text(`ÉMIS POUR : ${client.toUpperCase()}`, margin, y);
-            doc.text(`DATE : ${document.getElementById('dateInput').value.split('-').reverse().join('/')}`, 150, y);
-            y += 10;
-            drawHLine();
-
-            const addSection = (title) => {
-                checkSpace(25);
-                y += 5;
-                doc.setFontSize(14);
-                doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-                doc.setFont("helvetica", "bold");
-                doc.text(title.toUpperCase(), margin, y);
-                y += 4;
-                doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-                doc.setLineWidth(0.5);
-                doc.line(margin, y, margin + 20, y);
-                y += 10;
-            };
-
-            const addField = (label, value) => {
-                if (!value || String(value).trim() === "") return;
-                
-                doc.setFontSize(11);
-                const splitText = doc.splitTextToSize(String(value), 160);
-                
-                // Calcul dynamique de l'espace nécessaire avant d'écrire
-                const requiredSpace = 10 + (splitText.length * 6);
-                checkSpace(requiredSpace);
-                
-                doc.setFontSize(9);
-                doc.setTextColor(140);
-                doc.setFont("helvetica", "bold");
-                doc.text(label + " :", margin + 5, y);
-                y += 5;
-                
-                doc.setFontSize(11);
-                doc.setTextColor(40);
-                doc.setFont("helvetica", "normal");
-                doc.text(splitText, margin + 5, y);
-                y += (splitText.length * 6) + 5;
-            };
-
-            addSection("1. Identité de l'Entreprise");
-            addField("Nom de la structure", document.getElementById('nom_entreprise').value);
-            addField("Slogan", document.getElementById('slogan').value);
-            addField("Activité", document.getElementById('activite').value);
-            addField("Cible", document.getElementById('cible').value);
-            addField("Zone", document.getElementById('zone').value);
-
-            addSection("2. Vision & Design");
-            addField("Date de création", document.getElementById('date_creation').value);
-            addField("Histoire", document.getElementById('histoire').value);
-            addField("Valeurs", document.getElementById('valeurs').value);
-            
-            const styleOpt = document.querySelector('input[name="style"]:checked');
-            if (styleOpt) addField("Style graphique", styleOpt.value);
-            
-            addField("Couleurs", document.getElementById('couleurs_txt').value);
-            addField("Logo", "Fourni par le client via email");
-
-            addSection("3. Prestations & Fonctionnalités");
-            const services = Array.from(document.querySelectorAll('.service-input')).map(i => i.value).filter(v => v);
-            if (services.length) addField("Services à mettre en avant", services.join(" | "));
-            addField("Avantages concurrentiels", document.getElementById('points_forts').value);
-            
-            let feats = [];
-            if(document.getElementById('feat_resa').checked) feats.push("Réservations");
-            if(document.getElementById('feat_blog').checked) feats.push("Espace Blog");
-            if(document.getElementById('feat_social').checked) feats.push("Intégration Réseaux Sociaux");
-            if(document.getElementById('feat_multi').checked) {
-                const langs = [];
-                document.querySelectorAll('.lang-select').forEach(sel => {
-                    if (sel.value === 'Autre') {
-                        const otherVal = sel.parentElement.nextElementSibling.value;
-                        if(otherVal) langs.push(otherVal);
-                    } else if (sel.value) {
-                        langs.push(sel.value);
-                    }
-                });
-                if(langs.length) feats.push(`Multilingue (${langs.join(', ')})`);
-            }
-            if (feats.length) addField("Modules activés", feats.join(" • "));
-
-            addSection("4. L'Équipe");
-            const hasTeam = document.querySelector('input[name="has_team"]:checked').value;
-            if (hasTeam === "Oui") {
-                const teamBlocks = document.querySelectorAll('.team-block');
-                teamBlocks.forEach((tb, index) => {
-                    const tName = tb.querySelector('.team-name').value;
-                    const tRole = tb.querySelector('.team-role').value;
-                    const tEmail = tb.querySelector('.team-email').value;
-                    const tPhone = tb.querySelector('.team-phone').value;
-                    
-                    let memberInfo = `${tName} - ${tRole}`;
-                    if (tEmail) memberInfo += ` | ${tEmail}`;
-                    if (tPhone) memberInfo += ` | ${tPhone}`;
-                    addField(`Membre ${index + 1}`, memberInfo);
-                });
-            } else {
-                addField("Présentation", "L'équipe ne sera pas présentée sur le site.");
-            }
-
-            addSection("5. Réseaux & Liens");
-            const linkRows = document.querySelectorAll('.link-row');
-            let linksArr = [];
-            linkRows.forEach(lr => {
-                const ln = lr.querySelector('.link-name').value;
-                const lu = lr.querySelector('.link-url').value;
-                if (ln && lu) linksArr.push(`${ln} : ${lu}`);
-            });
-            if(linksArr.length > 0) addField("Liens fournis", linksArr.join("\n"));
-
-            addSection("6. Notes & Contact");
-            addField("Commentaires spécifiques", document.getElementById('commentaires_libres').value);
-            addField("Email de contact du client", document.getElementById('clientEmail').value);
-            addField("Téléphone du client", document.getElementById('telephone').value);
-            addField("Responsable projet", document.getElementById('responsableName').value);
-
-            const pageCount = doc.internal.getNumberOfPages();
-            for(let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                doc.setFontSize(8);
-                doc.setTextColor(180);
-                doc.text(`Cahier des Charges - Page ${i}/${pageCount}`, 105, 290, {align: "center"});
-            }
-
             try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                const client = document.getElementById('clientName').value || "Client Non Renseigné";
+                const primaryColor = [139, 92, 246];
+                let y = 20;
+                const margin = 20;
+
+                const checkSpace = (requiredHeight) => { 
+                    if (y + requiredHeight > 275) { 
+                        doc.addPage(); 
+                        y = 20; 
+                    } 
+                };
+
+                const drawHLine = () => { 
+                    doc.setDrawColor(230); 
+                    doc.line(margin, y, 190, y); 
+                    y += 10; 
+                };
+
+                doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                doc.rect(0, 0, 210, 40, 'F');
+                doc.setTextColor(255);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(22);
+                doc.text("CAHIER DES CHARGES WEB", margin, 26);
+                
+                y = 55;
+                doc.setTextColor(60);
+                doc.setFontSize(10);
+                doc.text(`ÉMIS POUR : ${client.toUpperCase()}`, margin, y);
+                
+                const dateVal = document.getElementById('dateInput').value;
+                const formattedDate = dateVal ? dateVal.split('-').reverse().join('/') : "Non renseignée";
+                doc.text(`DATE : ${formattedDate}`, 150, y);
+                y += 10;
+                drawHLine();
+
+                const addSection = (title) => {
+                    checkSpace(25);
+                    y += 5;
+                    doc.setFontSize(14);
+                    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(title.toUpperCase(), margin, y);
+                    y += 4;
+                    doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                    doc.setLineWidth(0.5);
+                    doc.line(margin, y, margin + 20, y);
+                    y += 10;
+                };
+
+                const addField = (label, value) => {
+                    const textValue = (value && String(value).trim() !== "") ? String(value) : "Non renseigné";
+                    
+                    doc.setFontSize(11);
+                    const splitText = doc.splitTextToSize(textValue, 160);
+                    
+                    const requiredSpace = 10 + (splitText.length * 6);
+                    checkSpace(requiredSpace);
+                    
+                    doc.setFontSize(9);
+                    doc.setTextColor(140);
+                    doc.setFont("helvetica", "bold");
+                    doc.text(label + " :", margin + 5, y);
+                    y += 5;
+                    
+                    doc.setFontSize(11);
+                    doc.setTextColor(40);
+                    doc.setFont("helvetica", "normal");
+                    doc.text(splitText, margin + 5, y);
+                    y += (splitText.length * 6) + 5;
+                };
+
+                addSection("1. Identité de l'Entreprise");
+                addField("Nom de la structure", document.getElementById('nom_entreprise').value);
+                addField("Slogan", document.getElementById('slogan').value);
+                addField("Activité", document.getElementById('activite').value);
+                addField("Cible", document.getElementById('cible').value);
+                addField("Zone", document.getElementById('zone').value);
+
+                addSection("2. Vision & Design");
+                addField("Date de création", document.getElementById('date_creation').value);
+                addField("Histoire", document.getElementById('histoire').value);
+                addField("Valeurs", document.getElementById('valeurs').value);
+                
+                const styleOpt = document.querySelector('input[name="style"]:checked');
+                addField("Style graphique", styleOpt ? styleOpt.value : "");
+                
+                addField("Couleurs", document.getElementById('couleurs_txt').value);
+                addField("Logo", "Fourni par le client via email");
+
+                addSection("3. Prestations & Fonctionnalités");
+                const services = Array.from(document.querySelectorAll('.service-input')).map(i => i.value).filter(v => v);
+                addField("Services à mettre en avant", services.length ? services.join(" | ") : "");
+                addField("Avantages concurrentiels", document.getElementById('points_forts').value);
+                
+                let feats = [];
+                if(document.getElementById('feat_resa').checked) feats.push("Réservations");
+                if(document.getElementById('feat_blog').checked) feats.push("Espace Blog");
+                if(document.getElementById('feat_social').checked) feats.push("Intégration Réseaux Sociaux");
+                if(document.getElementById('feat_multi').checked) {
+                    const langs = [];
+                    document.querySelectorAll('.lang-select').forEach(sel => {
+                        if (sel.value === 'Autre') {
+                            const otherVal = sel.parentElement.nextElementSibling.value;
+                            if(otherVal) langs.push(otherVal);
+                        } else if (sel.value) {
+                            langs.push(sel.value);
+                        }
+                    });
+                    if(langs.length) feats.push(`Multilingue (${langs.join(', ')})`);
+                }
+                addField("Modules activés", feats.length ? feats.join(" • ") : "Aucun module spécifique");
+
+                addSection("4. L'Équipe");
+                const hasTeam = document.querySelector('input[name="has_team"]:checked').value;
+                if (hasTeam === "Oui") {
+                    const teamBlocks = document.querySelectorAll('.team-block');
+                    if(teamBlocks.length === 0) {
+                        addField("Présentation", "Aucun membre ajouté.");
+                    } else {
+                        teamBlocks.forEach((tb, index) => {
+                            const tName = tb.querySelector('.team-name').value;
+                            const tRole = tb.querySelector('.team-role').value;
+                            const tEmail = tb.querySelector('.team-email').value;
+                            const tPhone = tb.querySelector('.team-phone').value;
+                            
+                            let memberInfo = `${tName || "Nom inconnu"} - ${tRole || "Poste inconnu"}`;
+                            if (tEmail) memberInfo += ` | ${tEmail}`;
+                            if (tPhone) memberInfo += ` | ${tPhone}`;
+                            addField(`Membre ${index + 1}`, memberInfo);
+                        });
+                    }
+                } else {
+                    addField("Présentation", "L'équipe ne sera pas présentée sur le site.");
+                }
+
+                addSection("5. Réseaux & Liens");
+                const linkRows = document.querySelectorAll('.link-row');
+                let linksArr = [];
+                linkRows.forEach(lr => {
+                    const ln = lr.querySelector('.link-name').value;
+                    const lu = lr.querySelector('.link-url').value;
+                    if (ln && lu) linksArr.push(`${ln} : ${lu}`);
+                });
+                addField("Liens fournis", linksArr.length > 0 ? linksArr.join("\n") : "");
+
+                addSection("6. Notes & Contact");
+                addField("Commentaires spécifiques", document.getElementById('commentaires_libres').value);
+                addField("Email de contact du client", document.getElementById('clientEmail').value);
+                addField("Téléphone du client", document.getElementById('telephone').value);
+                addField("Responsable projet", document.getElementById('responsableName').value);
+
+                const pageCount = doc.internal.getNumberOfPages();
+                for(let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(180);
+                    doc.text(`Cahier des Charges - Page ${i}/${pageCount}`, 105, 290, {align: "center"});
+                }
+
                 doc.save(`CDC_${client.replace(/\s+/g, '_')}.pdf`);
+                
                 await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
                     nom_entreprise: client,
                     to_email: document.getElementById('clientEmail').value,
@@ -821,12 +852,11 @@
                 });
                 
                 document.getElementById('loading-overlay').style.display = 'none';
-                
                 alert("Génération terminée avec succès !\n\nMerci de prendre un instant pour vérifier le document PDF qui vient de se télécharger sur votre appareil.\n\nPour finaliser votre demande, veuillez RÉPONDRE à l'email que vous venez de recevoir en y attachant ce PDF validé ainsi que vos éléments graphiques.");
                 
             } catch (err) {
                 document.getElementById('loading-overlay').style.display = 'none';
-                alert("Le fichier PDF a été généré, mais une erreur est survenue lors de l'envoi de l'email automatique.");
+                alert("Une erreur technique s'est produite lors de la génération du PDF : " + err.message);
                 console.error(err);
             }
         }
