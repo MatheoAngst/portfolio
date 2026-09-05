@@ -460,7 +460,6 @@
             }
         }
 
-        let langCount = 0;
         function addLanguage() {
             const container = document.getElementById("languages-container");
             
@@ -468,8 +467,6 @@
                 alert("Vous pouvez sélectionner jusqu'à 3 langues maximum.");
                 return;
             }
-
-            langCount++;
             
             const languages = [
                 "Afrikaans", "Albanais", "Allemand", "Amharique", "Anglais", "Arabe", "Arménien", "Azéri", "Basque", "Bengali",
@@ -517,9 +514,7 @@
             }
         }
 
-        let serviceCount = 2;
         function addService() {
-            serviceCount++;
             const container = document.getElementById("services-container");
             const htmlBlock = `
                 <div class="service-row" style="display: flex; gap: 12px; align-items: center;">
@@ -530,9 +525,7 @@
             container.insertAdjacentHTML('beforeend', htmlBlock);
         }
 
-        let linkCount = 2;
         function addLink() {
-            linkCount++;
             const container = document.getElementById("links-container");
             const htmlBlock = `
                 <div class="link-row">
@@ -659,7 +652,6 @@
         async function handleFinalSubmit(e) {
             e.preventDefault();
 
-            // Message d'avertissement professionnel avant la génération
             const confirmation = confirm("ÉTAPE IMPORTANTE :\n\n1. Un document PDF résumant votre demande va être généré et téléchargé sur votre appareil.\n2. Nous vous invitons à le vérifier attentivement.\n3. Pour valider votre projet, vous devrez RÉPONDRE à l'email de confirmation que vous allez recevoir dans quelques instants en y joignant ce PDF validé, ainsi que vos visuels (logo, photos de présentation).\n\nConfirmez-vous la création de votre cahier des charges ?");
             if (!confirmation) return;
 
@@ -671,8 +663,18 @@
             let y = 20;
             const margin = 20;
 
-            const checkSpace = (h) => { if (y + h > 275) { doc.addPage(); y = 20; } };
-            const drawHLine = () => { doc.setDrawColor(230); doc.line(margin, y, 190, y); y += 10; };
+            const checkSpace = (requiredHeight) => { 
+                if (y + requiredHeight > 275) { 
+                    doc.addPage(); 
+                    y = 20; 
+                } 
+            };
+
+            const drawHLine = () => { 
+                doc.setDrawColor(230); 
+                doc.line(margin, y, 190, y); 
+                y += 10; 
+            };
 
             doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
             doc.rect(0, 0, 210, 40, 'F');
@@ -704,17 +706,24 @@
             };
 
             const addField = (label, value) => {
-                if (!value || value.trim() === "") return;
-                checkSpace(15);
+                if (!value || String(value).trim() === "") return;
+                
+                doc.setFontSize(11);
+                const splitText = doc.splitTextToSize(String(value), 160);
+                
+                // Calcul dynamique de l'espace nécessaire avant d'écrire
+                const requiredSpace = 10 + (splitText.length * 6);
+                checkSpace(requiredSpace);
+                
                 doc.setFontSize(9);
                 doc.setTextColor(140);
                 doc.setFont("helvetica", "bold");
                 doc.text(label + " :", margin + 5, y);
                 y += 5;
+                
                 doc.setFontSize(11);
                 doc.setTextColor(40);
                 doc.setFont("helvetica", "normal");
-                const splitText = doc.splitTextToSize(String(value), 160);
                 doc.text(splitText, margin + 5, y);
                 y += (splitText.length * 6) + 5;
             };
@@ -813,7 +822,6 @@
                 
                 document.getElementById('loading-overlay').style.display = 'none';
                 
-                // Message final de rappel
                 alert("Génération terminée avec succès !\n\nMerci de prendre un instant pour vérifier le document PDF qui vient de se télécharger sur votre appareil.\n\nPour finaliser votre demande, veuillez RÉPONDRE à l'email que vous venez de recevoir en y attachant ce PDF validé ainsi que vos éléments graphiques.");
                 
             } catch (err) {
