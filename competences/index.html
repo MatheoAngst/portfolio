@@ -570,7 +570,7 @@ max-height: 100%;
 display: grid;
 align-items: center;
 overflow-y: auto;
-overscroll-behavior: contain;
+overscroll-behavior: auto;
 padding: clamp(24px, 4vw, 48px);
 border: 1px solid rgba(255, 255, 255, 0.7);
 border-radius: var(--radius-lg);
@@ -1002,13 +1002,6 @@ body.classList.add("gsap-horizontal");
 
 gsap.utils.toArray(".horizontal-track").forEach((track) => { track.scrollLeft = 0; });
 
-gsap.utils.toArray(".project-card").forEach((card) => {
-gsap.fromTo(card, { y: 58, scale: 0.965 }, {
-y: 0, scale: 1, duration: 0.9, ease: "power3.out",
-scrollTrigger: { trigger: card, start: "top 82%", invalidateOnRefresh: true }
-});
-});
-
 gsap.utils.toArray(".project-tags span").forEach((tag) => {
 gsap.fromTo(tag, { y: 14, opacity: 0 }, {
 y: 0, opacity: 1, duration: 0.48, ease: "power2.out",
@@ -1023,46 +1016,55 @@ scrollTrigger: { trigger: paragraph, start: "top 90%", invalidateOnRefresh: true
 });
 });
 
+// Defilement horizontal epingle : la section se fige, la piste glisse vers la droite,
+// puis la page reprend son defilement vers le bas (ordinateur uniquement ; mobile = swipe natif).
+ScrollTrigger.config({ ignoreMobileResize: true });
+const hMedia = gsap.matchMedia();
+hMedia.add("(min-width: 1025px)", () => {
+document.body.classList.add("gsap-h");
+
 gsap.utils.toArray(".project-section-horizontal").forEach((section) => {
 const pinWrap = section.querySelector(".pin-wrap");
 const card = section.querySelector(".horizontal-card");
 const track = section.querySelector(".horizontal-track");
 const panels = gsap.utils.toArray(section.querySelectorAll(".project-panel"));
-
 if (!pinWrap || !card || !track || panels.length < 2) return;
 
-const getDistance = () => track.scrollWidth - card.clientWidth;
+const distance = () => Math.max(0, track.scrollWidth - card.clientWidth);
 
-gsap.set(track, { x: 0, willChange: "transform" });
+// Entree douce de la carte, sans jamais toucher a l'element epingle
+gsap.from(card, {
+opacity: 0, y: 60, scale: 0.97, duration: 0.9, ease: "power3.out", clearProps: "opacity,transform",
+scrollTrigger: { trigger: section, start: "top 85%", once: true }
+});
 
 const tween = gsap.to(track, {
-x: () => -getDistance(),
+x: () => -distance(),
 ease: "none",
 scrollTrigger: {
 trigger: section,
 pin: pinWrap,
 pinSpacing: true,
 start: "top top",
-end: () => `+=${getDistance()}`, 
-scrub: 0.5,
-invalidateOnRefresh: true,
-anticipatePin: 1
+end: () => "+=" + distance(),
+scrub: 0.8,
+anticipatePin: 1,
+fastScrollEnd: true,
+invalidateOnRefresh: true
 }
 });
 
-panels.forEach((panel, index) => {
-gsap.fromTo(panel, {
-opacity: index === 0 ? 1 : 0.68, scale: index === 0 ? 1 : 0.985
-}, {
+// Chaque panneau s'eclaire en entrant dans la zone centrale de la carte
+panels.forEach((panel, i) => {
+if (i === 0) return;
+gsap.fromTo(panel, { opacity: 0.45, scale: 0.97 }, {
 opacity: 1, scale: 1, ease: "none",
-scrollTrigger: {
-containerAnimation: tween,
-trigger: panel,
-start: "left 70%", end: "right 62%",
-scrub: true, invalidateOnRefresh: true
-}
+scrollTrigger: { trigger: panel, containerAnimation: tween, start: "left 88%", end: "left 45%", scrub: true }
 });
 });
+});
+
+return () => { document.body.classList.remove("gsap-h"); };
 });
 
 if (document.fonts) {
