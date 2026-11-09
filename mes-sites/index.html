@@ -656,6 +656,7 @@ box-shadow: none;
 }
 .project-button-muted:hover { transform: none; box-shadow: none; }
 
+.theme-pose { --accent-rgb: 36, 58, 104; }
 .theme-garage { --accent-rgb: 49, 104, 178; }
 .theme-maison { --accent-rgb: 64, 130, 107; }
 .theme-association { --accent-rgb: 63, 94, 154; }
@@ -787,13 +788,14 @@ transition-duration: 0.01ms !important;
 <strong>Navigation</strong>
 </div>
 <nav class="menu-nav" aria-label="Navigation des projets">
-<a href="#garage-bakatselos" data-menu-link><span>01</span>Garage Bakatselos</a>
-<a href="#maison-hermerswiller" data-menu-link><span>02</span>Maison Hermerswiller</a>
-<a href="#association-hermerswiller" data-menu-link><span>03</span>Association d'Hermerswiller</a>
-<a href="#zina-panel" data-menu-link><span>04</span>Zina Panel</a>
-<a href="#ancien-portfolio" data-menu-link><span>05</span>Ancienne version du portfolio</a>
-<a href="#auto-ecoles" data-menu-link><span>06</span>Auto-écoles</a>
-<a href="#agrimat" data-menu-link><span>07</span>Agrimat</a>
+<a href="#domo-confort-pose" data-menu-link><span>01</span>Domo Confort Pose</a>
+<a href="#garage-bakatselos" data-menu-link><span>02</span>Garage Bakatselos</a>
+<a href="#maison-hermerswiller" data-menu-link><span>03</span>Maison Hermerswiller</a>
+<a href="#association-hermerswiller" data-menu-link><span>04</span>Association d'Hermerswiller</a>
+<a href="#zina-panel" data-menu-link><span>05</span>Zina Panel</a>
+<a href="#ancien-portfolio" data-menu-link><span>06</span>Ancienne version du portfolio</a>
+<a href="#auto-ecoles" data-menu-link><span>07</span>Auto-écoles</a>
+<a href="#agrimat" data-menu-link><span>08</span>Agrimat</a>
 </nav>
 <a class="menu-back" href="../index.html">Retour au portfolio</a>
 </div>
@@ -802,13 +804,52 @@ transition-duration: 0.01ms !important;
 <div class="page-progress" aria-hidden="true"><span></span></div>
 
 <main class="projects-page">
+<section class="project-section-horizontal theme-pose" id="domo-confort-pose" data-project="Domo Confort Pose">
+<div class="pin-wrap">
+<article class="project-card horizontal-card">
+<div class="horizontal-track">
+<div class="project-panel project-panel-intro">
+<p class="project-kicker">01 · Création complète · Défilement horizontal</p>
+<h1>Domo Confort Pose</h1>
+<p class="project-lead">Création complète du site d'un installateur de portails, volets et portes de garage, de la conception à la mise en ligne.</p>
+<div class="project-tags">
+<span>Création de A à Z</span><span>Hébergement</span><span>DNS</span><span>HTTPS</span>
+</div>
+<div class="scroll-cue" aria-hidden="true">
+<span class="scroll-cue-desktop">Scrollez pour explorer</span>
+<span class="scroll-cue-mobile">Glissez vers la droite</span>
+<span class="scroll-cue-icon"></span>
+</div>
+</div>
+<div class="project-panel project-panel-detail">
+<div class="text-shell">
+<span class="text-label">Détails du projet</span>
+<div class="text-zone">
+<p>Création de A à Z du site vitrine : structure des pages, prestations, tarifs, zones d'intervention, FAQ et parcours de demande de devis, avec une mise en page responsive.</p>
+<p>Déploiement chez l'hébergeur, configuration du nom de domaine, de la zone DNS et des alias (avec et sans www), puis activation du HTTPS.</p>
+<p>Référencement soigné (balises, Open Graph), accessibilité de base, tests de navigation et d'affichage mobile avant la livraison.</p>
+</div>
+</div>
+</div>
+<div class="project-panel project-panel-action">
+<div class="action-box">
+<span>Site en ligne</span>
+<p>Le projet peut être consulté directement depuis son domaine public.</p>
+<a class="project-button" href="https://domo-confort-pose.fr/" target="_blank" rel="noreferrer">Visiter le site</a>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+
 <section class="project-section-horizontal theme-garage" id="garage-bakatselos" data-project="Garage Bakatselos">
 <div class="pin-wrap">
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">01 · Production · Défilement horizontal</p>
-<h1>Garage Bakatselos</h1>
+<p class="project-kicker">02 · Production · Défilement horizontal</p>
+<h2>Garage Bakatselos</h2>
 <p class="project-lead">Migration, hébergement, sécurisation et mise en production d'un site de garage automobile avec une attention particulière portée à la stabilité de l'environnement final.</p>
 <div class="project-tags">
 <span>o2switch</span><span>cPanel</span><span>HTTPS</span><span>Sécurité</span>
@@ -846,7 +887,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">02 · Patrimoine · Défilement horizontal</p>
+<p class="project-kicker">03 · Patrimoine · Défilement horizontal</p>
 <h2>Maison Hermerswiller</h2>
 <p class="project-lead">Plateforme vitrine consacrée à la valorisation d'une maison alsacienne et à son histoire locale.</p>
 <div class="project-tags">
@@ -885,7 +926,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">03 · Association · Défilement horizontal</p>
+<p class="project-kicker">04 · Association · Défilement horizontal</p>
 <h2>Association d'Hermerswiller</h2>
 <p class="project-lead">Espace digital pensé pour centraliser la communication associative, les informations utiles et les événements locaux.</p>
 <div class="project-tags">
@@ -924,7 +965,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">04 · Panel privé · Défilement horizontal</p>
+<p class="project-kicker">05 · Panel privé · Défilement horizontal</p>
 <h2>Zina Panel</h2>
 <p class="project-lead">Interface d'administration privée pensée pour piloter des commandes, organiser les informations et sécuriser l'accès aux données sensibles.</p>
 <div class="project-tags">
@@ -963,7 +1004,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">05 · Archive · Défilement horizontal</p>
+<p class="project-kicker">06 · Archive · Défilement horizontal</p>
 <h2>Ancienne version du portfolio</h2>
 <p class="project-lead">Première version publique de mon identité numérique, utile pour mesurer l'évolution graphique, technique et éditoriale du portfolio.</p>
 <div class="project-tags">
@@ -1002,7 +1043,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">06 · Projet local · Défilement horizontal</p>
+<p class="project-kicker">07 · Projet local · Défilement horizontal</p>
 <h2>Auto-écoles</h2>
 <p class="project-lead">Maquette front-end destinée à présenter une activité d'auto-école avec une expérience claire, directe et responsive.</p>
 <div class="project-tags">
@@ -1041,7 +1082,7 @@ transition-duration: 0.01ms !important;
 <article class="project-card horizontal-card">
 <div class="horizontal-track">
 <div class="project-panel project-panel-intro">
-<p class="project-kicker">07 · Refonte · Défilement horizontal</p>
+<p class="project-kicker">08 · Refonte · Défilement horizontal</p>
 <h2>Agrimat</h2>
 <p class="project-lead">Refonte et modernisation d'un site industriel existant avec une nouvelle interface plus contemporaine, structurée et responsive.</p>
 <div class="project-tags">
